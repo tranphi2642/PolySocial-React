@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import NotificationModal from "./NotificationModal";
+import NotificationDelineModal from "./NotificationDelineModal";
+import CustomModal from "./CustomModal";
 import Nav from "../../components/Nav/index";
 
 import {
@@ -23,6 +26,10 @@ import post from "../../assets/images/post.jpg";
 import "./index.scss";
 
 export default function Home() {
+  const [show, setShow] = useState(false);
+  const [showDeline, setShowDeline] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
+
   return (
     <React.Fragment>
       <Nav />
@@ -51,7 +58,11 @@ export default function Home() {
                 </span>
                 <h3>Trang chủ</h3>
               </Link>
-              <Link className="menu-item" id="notifications">
+              <Link
+                className="menu-item"
+                id="notifications"
+                onClick={() => setShow(true)}
+              >
                 <span>
                   <i>
                     <UilBell />
@@ -59,77 +70,7 @@ export default function Home() {
                   </i>
                 </span>
                 <h3>Thông báo</h3>
-                <div className="notifications-popup">
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-                </div>
+                <NotificationModal onClose={() => setShow(false)} show={show} />
               </Link>
               <Link to={"/page"} className="menu-item">
                 <span>
@@ -153,7 +94,11 @@ export default function Home() {
                 </span>
                 <h3>Tin nhắn</h3>
               </Link>
-              <Link className="menu-item" id="theme">
+              <Link
+                className="menu-item"
+                id="theme"
+                onClick={() => setShowCustom(true)}
+              >
                 <span>
                   <i>
                     <UilPalette />
@@ -161,7 +106,11 @@ export default function Home() {
                 </span>
                 <h3>Giao diện</h3>
               </Link>
-              <Link className="menu-item" id="notifications-deline">
+              <Link
+                className="menu-item"
+                id="notifications-deline"
+                onClick={() => setShowDeline(true)}
+              >
                 <span>
                   <i>
                     <UilClockTwo />
@@ -170,79 +119,10 @@ export default function Home() {
                 </span>
                 <h3>Bài tập (Deadline)</h3>
 
-                {/* <!------------------------------- Notification deline ----------------------------> */}
-                <div className="notifications-deline">
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="notification-body">
-                      <b>Nguyễn Thăng</b> đã bình luận bài viết của bạn
-                      <small className="text-muted">1 phút trước</small>
-                    </div>
-                  </div>
-                </div>
-                {/* <!------------------------------- End Notification deline ----------------------------> */}
+                <NotificationDelineModal
+                  onClose={() => setShowDeline(false)}
+                  showDeline={showDeline}
+                />
               </Link>
               <Link to={"/admin"} className="menu-item">
                 <span>
@@ -898,62 +778,10 @@ export default function Home() {
           {/* <!------------------------------- End Right ----------------------------> */}
         </div>
       </main>
-
-      {/* <!------------------------------- Theme custom ----------------------------> */}
-      {/* <div className="customize-theme">
-        <div className="card">
-          <h2>Giao điện custom</h2>
-          <p className="text-muted">
-            Quản lý cỡ chữ, màu sắc và màu nền tuỳ theo ý của bạn
-          </p>
-
-          <div className="font-size">
-            <h4>Cỡ chữ</h4>
-            <div>
-              <h6>Aa</h6>
-              <div className="choose-size">
-                <span className="font-size-1"></span>
-                <span className="font-size-2"></span>
-                <span className="font-size-3 active"></span>
-                <span className="font-size-4"></span>
-                <span className="font-size-5"></span>
-              </div>
-              <h3>Aa</h3>
-            </div>
-          </div>
-
-          <div className="color">
-            <h4>Màu sắc</h4>
-            <div className="choose-color">
-              <span className="color-1"></span>
-              <span className="color-2"></span>
-              <span className="color-3 active"></span>
-              <span className="color-4"></span>
-              <span className="color-5"></span>
-            </div>
-          </div>
-
-          <div className="background">
-            <h4>Màu nền</h4>
-            <div className="choose-bg">
-              <div className="bg-1 active">
-                <span></span>
-                <h5 for="bg-1">Trắng</h5>
-              </div>
-
-              <div className="bg-2">
-                <span></span>
-                <h5 for="bg-2">Sầm</h5>
-              </div>
-
-              <div className="bg-3">
-                <span></span>
-                <h5 for="bg-3">Đêm</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      <CustomModal
+        onClose={() => setShowCustom(false)}
+        showCustom={showCustom}
+      />
     </React.Fragment>
   );
 }
