@@ -39,7 +39,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"revenus"} className="menu-item">
+            <Link to={"/admin/revenus"} className="menu-item">
               <i>
                 <UilChart />
               </i>
@@ -47,7 +47,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"accounts"} className="menu-item">
+            <Link to={"/admin/accounts"} className="menu-item">
               <i>
                 <UilUserPlus />
               </i>
@@ -55,7 +55,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"groups"} className="menu-item">
+            <Link to={"/admin/groups"} className="menu-item">
               <i>
                 <UilUsersAlt />
               </i>
@@ -63,7 +63,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"contents"} className="menu-item">
+            <Link to={"/admin/contents"} className="menu-item">
               <i>
                 <UilFilesLandscapes />
               </i>
@@ -71,7 +71,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"likes"} className="menu-item">
+            <Link to={"/admin/likes"} className="menu-item">
               <i>
                 <UilHeartAlt />
               </i>
@@ -79,7 +79,7 @@ export default function NavAdmin() {
             </Link>
           </li>
           <li>
-            <Link to={"comments"} className="menu-item">
+            <Link to={"/admin/comments"} className="menu-item">
               <i>
                 <UilComments />
               </i>
