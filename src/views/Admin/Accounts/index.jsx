@@ -53,12 +53,12 @@ export default function index() {
             </div>
             <div className="select-box">
               <select className="select">
-                <option value="" selected>
+                <option defaultValue="" defaultChecked>
                   Lọc theo
                 </option>
-                <option value="1">MSSV</option>
-                <option value="2">Họ và tên</option>
-                <option value="3">Email</option>
+                <option defaultValue="1">MSSV</option>
+                <option defaultValue="2">Họ và tên</option>
+                <option defaultValue="3">Email</option>
               </select>
             </div>
           </form>
