@@ -285,7 +285,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-create-group .cart-create {
@@ -315,7 +315,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-create-content .cart-create {
@@ -365,7 +365,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-create-account .cart-create {
@@ -381,6 +381,16 @@
   font-weight: 600;
   margin-bottom: 1rem;
 }
+.modal-create-account .cart-create button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-create-account .cart-create button svg {
+  width: 24px;
+  height: 16px;
+}
 
 /* create user */
 .modal-create-user {
@@ -394,7 +404,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-create-user .cart-create {
@@ -455,7 +465,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-edit-account .cart-update {
@@ -490,7 +500,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-edit-content .cart-update {
@@ -546,7 +556,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-edit-group .cart-update {
@@ -581,7 +591,7 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
+  // display: none;
 }
 
 .modal-delete-user .cart-delete {
@@ -594,6 +604,11 @@
 
 .model-delete {
   text-align: center;
+}
+
+.model-delete i svg {
+  width: 100px;
+  height: 100px;
 }
 
 .modal-delete-user .cart-delete .uil-check-circle {

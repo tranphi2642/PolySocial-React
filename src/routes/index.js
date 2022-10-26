@@ -16,6 +16,7 @@ import Groups from "../views/Admin/Groups/index.jsx";
 import Contents from "../views/Admin/Contents/index.jsx";
 import Likes from "../views/Admin/Likes/index.jsx";
 import Comments from "../views/Admin/Comments/index.jsx";
+import GroupDetails from "../views/Admin/GroupDetails/index.jsx";
 
 const publicRouters = [
   {
@@ -77,6 +78,10 @@ const publicRouters = [
   {
     path: "/admin/groups",
     component: Groups,
+  },
+  {
+    path: "/admin/groupDetails",
+    component: GroupDetails,
   },
   {
     path: "/admin/contents",

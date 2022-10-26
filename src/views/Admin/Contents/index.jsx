@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import ContentModal from "./CreateContentModal";
+import EditContentModal from "./EditContentModal";
 import { Link } from "react-router-dom";
 import NavAdmin from "../../../components/Admin/Nav/index";
 import {
@@ -10,8 +12,12 @@ import {
 } from "@iconscout/react-unicons";
 
 import avatar from "../../../assets/images/1.jpg";
+import EditAccountModal from "../Accounts/EditAccountModal";
 
-export default function index() {
+export default function Contents() {
+  const [show, setShow] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   return (
     <React.Fragment>
       <NavAdmin />
@@ -35,7 +41,7 @@ export default function index() {
               </i>{" "}
               Thống kê bài viết
             </span>
-            <Link id="createAccount">
+            <Link id="createContent" onClick={() => setShow(true)}>
               <i>
                 <UilPlus />
               </i>{" "}
@@ -83,7 +89,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -98,7 +107,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -113,7 +125,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -128,7 +143,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -143,7 +161,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -158,7 +179,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -173,7 +197,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -188,7 +215,10 @@ export default function index() {
                 <td>Hiển thị</td>
                 <td>2022/10/26</td>
                 <td>
-                  <Link className="updateContent" data-user="'123'">
+                  <Link
+                    className="updateContent"
+                    onClick={() => setShowEdit(true)}
+                  >
                     <i>
                       <UilEdit />
                     </i>
@@ -199,6 +229,11 @@ export default function index() {
           </table>
         </div>
       </section>
+      <ContentModal onClose={() => setShow(false)} show={show} />
+      <EditContentModal
+        onClose={() => setShowEdit(false)}
+        showEdit={showEdit}
+      />
     </React.Fragment>
   );
 }

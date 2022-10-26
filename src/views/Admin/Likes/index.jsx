@@ -8,7 +8,7 @@ import {
 
 import avatar from "../../../assets/images/1.jpg";
 
-export default function index() {
+export default function Likes() {
   return (
     <React.Fragment>
       <NavAdmin />

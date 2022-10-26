@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import GroupModal from "./CreateGroupModal";
-import EditGroupModal from "./EditGroupModal";
+import CreateUser from "./CreateUserModal";
+import DeleteUser from "./DeleteUserModal";
 import { Link } from "react-router-dom";
 import NavAdmin from "../../../components/Admin/Nav/index";
 import {
@@ -13,7 +13,7 @@ import {
 
 import avatar from "../../../assets/images/1.jpg";
 
-export default function Groups() {
+export default function GroupDetails() {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -38,13 +38,13 @@ export default function Groups() {
               <i>
                 <UilTachometerFastAlt />
               </i>{" "}
-              Thống kê nhóm đã tạo
+              Thống kê sinh viên có trong nhóm đã tạo
             </span>
-            <Link id="createGroup" onClick={() => setShow(true)}>
+            <Link id="createUser" onClick={() => setShow(true)}>
               <i>
                 <UilPlus />
               </i>{" "}
-              Tạo nhóm
+              Tạo sinh viên viên
             </Link>
           </div>
 
@@ -71,27 +71,23 @@ export default function Groups() {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Tên Nhóm</th>
-                <th>Số lượng TV</th>
+                <th>Họ và tên</th>
                 <th>Trạng thái</th>
+                <th>Tên nhóm</th>
                 <th>Khoá</th>
-                <th>Ngày tạo</th>
                 <th></th>
               </tr>
             </thead>
             <tbody className="body">
               <tr className="active-row">
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -102,16 +98,13 @@ export default function Groups() {
               </tr>
               <tr>
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -122,16 +115,13 @@ export default function Groups() {
               </tr>
               <tr>
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -142,16 +132,13 @@ export default function Groups() {
               </tr>
               <tr>
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -162,16 +149,13 @@ export default function Groups() {
               </tr>
               <tr>
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -182,16 +166,13 @@ export default function Groups() {
               </tr>
               <tr>
                 <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
+                <td>Trần Mậu Phi</td>
                 <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
+                <td>2</td>
+                <td>Khoá 16</td>
                 <td>
                   <Link
-                    className="updateGroup"
+                    className="deleteUser"
                     onClick={() => setShowEdit(true)}
                   >
                     <i>
@@ -204,8 +185,8 @@ export default function Groups() {
           </table>
         </div>
       </section>
-      <GroupModal onClose={() => setShow(false)} show={show} />
-      <EditGroupModal onClose={() => setShowEdit(false)} showEdit={showEdit} />
+      <CreateUser onClose={() => setShow(false)} show={show} />
+      <DeleteUser showEdit={showEdit} />
     </React.Fragment>
   );
 }
