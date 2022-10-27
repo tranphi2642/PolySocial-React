@@ -21,7 +21,13 @@ export default function Profile() {
               <span className="text-muted">Sinh viên FPT Polytechnic</span>
             </div>
             <div className="link">
+              <Link to={"/profile"}>Thông tin</Link>
+            </div>
+            <div className="link">
               <Link to={"/profileDetail"}>Chỉnh sửa</Link>
+            </div>
+            <div className="link">
+              <Link to={"/changePass"}>Đổi mật khẩu</Link>
             </div>
           </div>
           <div className="profile-details">
@@ -32,7 +38,7 @@ export default function Profile() {
               <h6>Thông tin người dùng</h6>
               <div className="profile-details-row">
                 <div className="form-input">
-                  <label for="avatar">Ảnh</label>
+                  <label htmlFor="avatar">Ảnh</label>
                   <input
                     type="file"
                     id="avatar"
@@ -41,7 +47,7 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="stCode">Mã số sinh viên</label>
+                  <label htmlFor="stCode">Mã số sinh viên</label>
                   <input
                     type="text"
                     id="stCode"
@@ -51,7 +57,7 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="name">Họ và tên</label>
+                  <label htmlFor="name">Họ và tên</label>
                   <input
                     type="text"
                     id="name"
@@ -61,7 +67,7 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="email">Email</label>
+                  <label htmlFor="email">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -76,12 +82,12 @@ export default function Profile() {
               <h6>Thông tin liên lạc</h6>
               <div className="profile-details-row">
                 <div className="form-input">
-                  <label for="birthday">Ngày sinh</label>
+                  <label htmlFor="birthday">Ngày sinh</label>
                   <input type="date" id="birthday" defaultValue="2002-04-26" />
                 </div>
 
                 <div className="form-input">
-                  <label for="gender">Giới tính</label>
+                  <label htmlFor="gender">Giới tính</label>
                   <div className="gender">
                     <div>
                       <input
@@ -105,23 +111,23 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="major">Chuyên ngành</label>
+                  <label htmlFor="major">Chuyên ngành</label>
                   <div className="select-box ">
                     <select className="select">
-                      <option value="" selected>
+                      <option defaultValue="" defaultChecked>
                         Hãy chọn chuyên ngành
                       </option>
-                      <option value="1">Ứng dụng phần mềm</option>
-                      <option value="2">Phát triển phần mềm</option>
-                      <option value="3">Thiết kế website</option>
-                      <option value="4">Lập trình mobile</option>
-                      <option value="5">Thiết kế đồ hoạ</option>
+                      <option defaultValue="1">Ứng dụng phần mềm</option>
+                      <option defaultValue="2">Phát triển phần mềm</option>
+                      <option defaultValue="3">Thiết kế website</option>
+                      <option defaultValue="4">Lập trình mobile</option>
+                      <option defaultValue="5">Thiết kế đồ hoạ</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="form-input">
-                  <label for="address">Địa chỉ</label>
+                  <label htmlFor="address">Địa chỉ</label>
                   <input
                     type="text"
                     id="address"
@@ -131,7 +137,7 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="major">Khoá</label>
+                  <label htmlFor="major">Khoá</label>
                   <input
                     type="text"
                     id="major"
@@ -141,7 +147,7 @@ export default function Profile() {
                 </div>
 
                 <div className="form-input">
-                  <label for="dateCreate">Ngày tạo</label>
+                  <label htmlFor="dateCreate">Ngày tạo</label>
                   <input
                     type="date"
                     id="dateCreate"

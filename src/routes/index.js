@@ -17,11 +17,17 @@ import Contents from "../views/Admin/Contents/index.jsx";
 import Likes from "../views/Admin/Likes/index.jsx";
 import Comments from "../views/Admin/Comments/index.jsx";
 import GroupDetails from "../views/Admin/GroupDetails/index.jsx";
+import ForgotPass from "../views/ForgotPass/index.jsx";
+import ChangePass from "../views/ChangePass/index.jsx";
 
 const publicRouters = [
   {
     path: "/",
     component: Login,
+  },
+  {
+    path: "/forgotPass",
+    component: ForgotPass,
   },
   {
     path: "/info",
@@ -38,6 +44,10 @@ const publicRouters = [
   {
     path: "/profileDetail",
     component: ProfileDetail,
+  },
+  {
+    path: "/changePass",
+    component: ChangePass,
   },
   {
     path: "/page",

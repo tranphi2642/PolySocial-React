@@ -57,6 +57,9 @@ export default function Login() {
                   />
                 </i>
               </div>
+              <div className="link-field">
+                <Link to={"/forgotPass"}>Quên mật khẩu ?</Link>
+              </div>
               <div className="field button-field">
                 <button type="submit">Đăng nhập</button>
               </div>
