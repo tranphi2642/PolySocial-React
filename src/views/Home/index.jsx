@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
 import NotificationDelineModal from "./NotificationDelineModal";
+import CreatePostModal from "./CreatePostModal";
 import CustomModal from "./CustomModal";
 import Nav from "../../components/Nav/index";
 
@@ -29,6 +30,7 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [showDeline, setShowDeline] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
+  const [showCreatePost, setShowCreatePost] = useState(false);
 
   return (
     <React.Fragment>
@@ -148,14 +150,14 @@ export default function Home() {
           <div className="middle">
             {/* <!------------------------------- Create post ----------------------------> */}
             <form className="create-post">
-              <div className="profile-photo">
+              <div className="profile-photo-post">
                 <img src={avatar} alt="" />
               </div>
               <input
                 type="text"
-                name="post"
                 id="create-post"
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
+                onClick={() => setShowCreatePost(true)}
               />
               <input
                 type="submit"
@@ -176,6 +178,8 @@ export default function Home() {
                     <div className="info">
                       <h3>Trần Phi</h3>
                       <small> FPT Polytechnic, 15 phút trước </small>
+                      <br />
+                      <small> 26-10-2022 </small>
                     </div>
                   </div>
                   <span className="edit">
@@ -185,19 +189,31 @@ export default function Home() {
                   </span>
                 </div>
 
+                <div>
+                  Ở đây ai đã từng thất bại trong tình yêu không nè?? Giơ tay
+                  lên nào 🙌🙌 👉 Chỉ mới mở màn thôi nhé, còn nhiều tiết mục
+                  cháy hơn thế nữa 🔥
+                </div>
+
                 <div className="photo">
                   <img src={post} alt="" />
                 </div>
 
                 <div className="action-buttons">
                   <div className="interaction-buttons">
-                    <span>
+                    <span className="custom-action">
                       <i>
                         <UilHeart />
                       </i>
+                      <span className="h5">15</span>
+                    </span>
+                    <span className="custom-action">
                       <i>
                         <UilCommentDots />
                       </i>
+                      <span className="h5">3</span>
+                    </span>
+                    <span className="custom-action">
                       <i className="uil uil-share-alt">
                         <UilShareAlt />
                       </i>
@@ -239,6 +255,7 @@ export default function Home() {
                       id="create-cmt"
                       placeholder="Viết bình luận..."
                     />
+                    <button className="btn btn-primary">Bình luận</button>
                   </form>
                 </div>
 
@@ -781,6 +798,10 @@ export default function Home() {
       <CustomModal
         onClose={() => setShowCustom(false)}
         showCustom={showCustom}
+      />
+      <CreatePostModal
+        onClose={() => setShowCreatePost(false)}
+        showCreatePost={showCreatePost}
       />
     </React.Fragment>
   );
