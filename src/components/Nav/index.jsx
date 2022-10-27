@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/images/1.jpg";
 import "./index.scss";
+import { UilSearch } from "@iconscout/react-unicons";
 
 export default function Nav() {
   return (
@@ -17,7 +18,9 @@ export default function Nav() {
           </Link>
         </div>
         <div className="search-bar">
-          <i className="uil uil-search"></i>
+          <i>
+            <UilSearch />
+          </i>
           <input type="search" placeholder="Tìm kiếm" />
         </div>
         <div className="profile-picture">

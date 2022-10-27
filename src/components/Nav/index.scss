@@ -71,6 +71,11 @@ nav .logo img {
   padding: var(--search-padding);
 }
 
+.search-bar i svg {
+  width: 20px;
+  height: 17px;
+}
+
 .search-bar input[type="search"] {
   background: transparent;
   width: 30vw;
