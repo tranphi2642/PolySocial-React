@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import SearchFriend from "./SearchFriend";
 import avatar from "../../assets/images/1.jpg";
 import "./index.scss";
 import { UilSearch } from "@iconscout/react-unicons";
 
 export default function Nav() {
+  const [show, setShow] = useState(false);
+
   return (
     <nav>
       <div className="container">
@@ -21,7 +24,12 @@ export default function Nav() {
           <i>
             <UilSearch />
           </i>
-          <input type="search" placeholder="Tìm kiếm" />
+          <input
+            type="search"
+            placeholder="Tìm kiếm"
+            onClick={() => setShow(true)}
+          />
+          <SearchFriend onClose={() => setShow(false)} show={show} />
         </div>
         <div className="profile-picture">
           <span>Trần Phi</span>

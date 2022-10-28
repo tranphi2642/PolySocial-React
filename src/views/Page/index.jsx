@@ -7,6 +7,7 @@ import {
   UilShareAlt,
   UilBookmarkFull,
   UilEllipsisH,
+  UilSignOutAlt,
 } from "@iconscout/react-unicons";
 import Nav from "../../components/Nav/index";
 
@@ -30,6 +31,25 @@ export default function index() {
                     <UilSearch />
                   </i>
                 </button>
+              </div>
+              <hr />
+              <div className="page-search-join">
+                <h4>Nhóm bạn đã tìm kiếm</h4>
+                <Link className="page">
+                  <div className="page-photo">
+                    <img
+                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="handle">
+                    <h4>SYB.IT16307_3.B2.2022</h4>
+                    <p className="text-muted">Nhóm Công khai - 31 thành viên</p>
+                  </div>
+                  <button>
+                    <UilSignOutAlt />
+                  </button>
+                </Link>
               </div>
               <hr />
               <div className="page-join">
