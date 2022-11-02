@@ -22,7 +22,7 @@ import ChangePass from "./../views/components/user/ChangePass/index.jsx";
 
 const publicRouters = [
   {
-    path: "/",
+    path: "/login",
     component: Login,
   },
   {

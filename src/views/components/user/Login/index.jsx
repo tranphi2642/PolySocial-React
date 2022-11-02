@@ -1,27 +1,54 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import "font-awesome/css/font-awesome.min.css";
 import { UilEyeSlash } from "@iconscout/react-unicons";
 import "./index.scss";
+import useLogin from "../../../utils/useLogin/useLogin";
+import Axios from "../../../../api/index";
 
 export default function Login() {
-  const [values, setValues] = useState({
+  const { account, setAccount } = useLogin();
+  const [inputValues, setInputValues] = useState({
+    email: "",
     password: "",
-    showPassword: false,
   });
+  const [typePassword, setTypePassword] = useState("password");
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+  const login = async () => {
+    const response = await Axios.LoginAPI.loginWithAccount(inputValues);
+    console.log(response);
+    if (response.status === 200) {
+      setAccount(response.data);
+      this.props.history.push("/home");
+    } else {
+      alert(response.data.message)
+    }
   };
 
-  const handleMouseDownPassword = (event) => {
+  const handleOnSubmit = (event) => {
     event.preventDefault();
+    login();
   };
 
-  const handlePasswordChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  const hanldeOnChangeInput = (event) => {
+    const { name, value } = event.target;
+    setInputValues({ ...inputValues, [name]: value });
   };
 
+  const handleClickShowPassword = (event) => {
+    switch (typePassword) {
+      case "text":
+        setTypePassword("password");
+        break;
+      case "password":
+        setTypePassword("text");
+        break;
+    }
+  };
+
+  if (account) {
+    return <Navigate to="/home" replace={true} />;
+  }
   return (
     <div>
       <section className="login">
@@ -33,28 +60,26 @@ export default function Login() {
                 alt=""
               />
             </header>
-            <form action="/info">
+            <form onSubmit={handleOnSubmit}>
               <div className="field input-field">
                 <input
                   type="email"
-                  placeholder="Email"
+                  name="email"
                   className="input"
-                  defaultValue={"phitmps16509@fpt.edu.vn"}
+                  onChange={hanldeOnChangeInput}
+                  placeholder="Email"
                 />
               </div>
               <div className="field input-field">
                 <input
-                  placeholder="Mật khẩu"
+                  type={typePassword}
+                  name="password"
                   className="password"
-                  type={values.showPassword ? "text" : "password"}
-                  onChange={handlePasswordChange("password")}
-                  value={values.password}
+                  onChange={hanldeOnChangeInput}
+                  placeholder="Mật khẩu"
                 />
                 <i className="eye-icon">
-                  <UilEyeSlash
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  />
+                  <UilEyeSlash onClick={handleClickShowPassword} />
                 </i>
               </div>
               <div className="link-field">

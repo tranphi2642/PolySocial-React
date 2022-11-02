@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
 import NotificationDelineModal from "./NotificationDelineModal";
 import CreatePostModal from "./CreatePostModal";
@@ -22,16 +22,20 @@ import {
   UilEllipsisH,
 } from "@iconscout/react-unicons";
 
-import avatar from "../../../../assets/images/1.jpg";
 import post from "../../../../assets/images/post.jpg";
 import "./index.scss";
+import useLogin from "../../../utils/useLogin/useLogin";
 
 export default function Home() {
+  const {account} = useLogin();
   const [show, setShow] = useState(false);
-  const [showDeline, setShowDeline] = useState(false);
+  const [showDeadline, setShowDeadline] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
 
+  if (!account){
+    return <Navigate to="/login" replace={true} />;
+  }
   return (
     <React.Fragment>
       <Nav />
@@ -42,11 +46,11 @@ export default function Home() {
           <div className="left">
             <Link to={"/profile"} className="profile">
               <div className="profile-photo">
-                <img src={avatar} alt="" />
+                <img src={account.avatar} alt="" />
               </div>
               <div className="handle">
-                <h4>Trần Phi</h4>
-                <p className="text-muted">@pi2642</p>
+                <h4>{account.fullName}</h4>
+                <p className="text-muted">{account.email}</p>
               </div>
             </Link>
 
@@ -111,7 +115,7 @@ export default function Home() {
               <Link
                 className="menu-item"
                 id="notifications-deline"
-                onClick={() => setShowDeline(true)}
+                onClick={() => setShowDeadline(true)}
               >
                 <span>
                   <i>
@@ -122,8 +126,8 @@ export default function Home() {
                 <h3>Bài tập (Deadline)</h3>
 
                 <NotificationDelineModal
-                  onClose={() => setShowDeline(false)}
-                  showDeline={showDeline}
+                  onClose={() => setShowDeadline(false)}
+                  showDeline={showDeadline}
                 />
               </Link>
               <Link to={"/admin"} className="menu-item">
@@ -151,7 +155,7 @@ export default function Home() {
             {/* <!------------------------------- Create post ----------------------------> */}
             <form className="create-post">
               <div className="profile-photo-post">
-                <img src={avatar} alt="" />
+                <img src={account.avatar} alt="" />
               </div>
               <input
                 type="text"
@@ -173,10 +177,10 @@ export default function Home() {
                 <div className="head">
                   <div className="user">
                     <div className="profile-photo">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="info">
-                      <h3>Trần Phi</h3>
+                      <h3>{account.fullName}</h3>
                       <small> FPT Polytechnic, 15 phút trước </small>
                       <br />
                       <small> 26-10-2022 </small>
@@ -230,24 +234,24 @@ export default function Home() {
 
                 <div className="liked-by">
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
 
                   <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
+                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
                   </p>
                 </div>
 
                 <div className="cmt">
                   <form className="create-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <input
                       type="text"
@@ -262,10 +266,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -273,10 +277,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -285,10 +289,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -302,10 +306,10 @@ export default function Home() {
                 <div className="head">
                   <div className="user">
                     <div className="profile-photo">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="info">
-                      <h3>Trần Phi</h3>
+                      <h3>{account.fullName}</h3>
                       <small> FPT Polytechnic, 15 phút trước </small>
                     </div>
                   </div>
@@ -345,24 +349,24 @@ export default function Home() {
 
                 <div className="liked-by">
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
 
                   <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
+                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
                   </p>
                 </div>
 
                 <div className="cmt">
                   <form className="create-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <input
                       type="text"
@@ -376,10 +380,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -387,10 +391,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -399,10 +403,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -416,10 +420,10 @@ export default function Home() {
                 <div className="head">
                   <div className="user">
                     <div className="profile-photo">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="info">
-                      <h3>Trần Phi</h3>
+                      <h3>{account.fullName}</h3>
                       <small> FPT Polytechnic, 15 phút trước </small>
                     </div>
                   </div>
@@ -459,24 +463,24 @@ export default function Home() {
 
                 <div className="liked-by">
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
 
                   <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
+                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
                   </p>
                 </div>
 
                 <div className="cmt">
                   <form className="create-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <input
                       type="text"
@@ -490,10 +494,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -501,10 +505,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -513,10 +517,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -530,10 +534,10 @@ export default function Home() {
                 <div className="head">
                   <div className="user">
                     <div className="profile-photo">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="info">
-                      <h3>Trần Phi</h3>
+                      <h3>{account.fullName}</h3>
                       <small> FPT Polytechnic, 15 phút trước </small>
                     </div>
                   </div>
@@ -573,24 +577,24 @@ export default function Home() {
 
                 <div className="liked-by">
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
                   <span>
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </span>
 
                   <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
+                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
                   </p>
                 </div>
 
                 <div className="cmt">
                   <form className="create-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <input
                       type="text"
@@ -604,10 +608,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -615,10 +619,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -627,10 +631,10 @@ export default function Home() {
                 <div className="comments">
                   <div className="profile-cmt">
                     <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                      <img src={account.avatar} alt="" />
                     </div>
                     <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
+                      <h4>{account.fullName}</h4>
                       <p>Bài viết này xịn quá</p>
                     </div>
                   </div>
@@ -668,18 +672,18 @@ export default function Home() {
               <div className="all-messages">
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
 
                   <div className="message-body">
-                    <h5>Trần Phi</h5>
+                    <h5>{account.fullName}</h5>
                     <p className="text-muted">Xin chào</p>
                   </div>
                 </div>
 
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
 
                   <div className="message-body">
@@ -690,18 +694,18 @@ export default function Home() {
 
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
 
                   <div className="message-body">
-                    <h5>Trần Phi</h5>
+                    <h5>{account.fullName}</h5>
                     <p className="text-muted">Xin chào</p>
                   </div>
                 </div>
 
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
 
                   <div className="message-body">
@@ -712,7 +716,7 @@ export default function Home() {
 
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
 
                   <div className="message-body">
@@ -723,12 +727,12 @@ export default function Home() {
 
                 <div className="message">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                     <div className="active"></div>
                   </div>
 
                   <div className="message-body">
-                    <h5>Trần Phi</h5>
+                    <h5>{account.fullName}</h5>
                     <p className="text-muted">Xin chào</p>
                   </div>
                 </div>
@@ -742,7 +746,7 @@ export default function Home() {
               <div className="request">
                 <div className="info">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
                   <div>
                     <h5>Nguyễn Thăng</h5>
@@ -759,7 +763,7 @@ export default function Home() {
               <div className="request">
                 <div className="info">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
                   <div>
                     <h5>Phan Nguyễn Đăng Trường</h5>
@@ -776,7 +780,7 @@ export default function Home() {
               <div className="request">
                 <div className="info">
                   <div className="profile-photo">
-                    <img src={avatar} alt="" />
+                    <img src={account.avatar} alt="" />
                   </div>
                   <div>
                     <h5>Đặng Hoàng Duy</h5>

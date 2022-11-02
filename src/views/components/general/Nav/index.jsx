@@ -4,8 +4,10 @@ import SearchFriend from "./SearchFriend";
 import avatar from "../../../../assets/images/1.jpg";
 import "./index.scss";
 import { UilSearch } from "@iconscout/react-unicons";
+import useLogin from "../../../utils/useLogin/useLogin";
 
 export default function Nav() {
+  const {account} = useLogin();
   const [show, setShow] = useState(false);
 
   return (
@@ -32,8 +34,8 @@ export default function Nav() {
           <SearchFriend onClose={() => setShow(false)} show={show} />
         </div>
         <div className="profile-picture">
-          <span>Trần Phi</span>
-          <img src={avatar} alt="" />
+          <span>{account.fullName}</span>
+          <img src={account.avatar} alt="" />
         </div>
       </div>
     </nav>

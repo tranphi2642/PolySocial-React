@@ -1,5 +1,6 @@
 import Accounts from "./Admin/Accounts";
+import LoginAPI from "./LoginAPI";
 
-const API = { Accounts };
+const Axios = { Accounts, LoginAPI};
 
-export default API;
+export default Axios;
