@@ -199,7 +199,7 @@ nav .profile-picture img {
   padding: 1rem;
   border-bottom-left-radius: var(--card-border-radius);
   border-bottom-right-radius: var(--card-border-radius);
-  width: 35%;
+  width: 38%;
   height: max-content;
 }
 
@@ -214,6 +214,13 @@ nav .profile-picture img {
   align-items: center;
   column-gap: 0.7rem;
   width: 100%;
+  justify-content: space-between;
+}
+
+.modal-search .form-search .modal-profile .handle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .modal-search .form-search .modal-profile .handle h4 {
@@ -221,10 +228,6 @@ nav .profile-picture img {
   font-size: 16px;
 }
 
-.modal-search .form-search .modal-profile .handle-buttoms {
-  margin-left: 90px;
-
-  button {
-    margin-right: 0.5rem;
-  }
+.modal-search .form-search .modal-profile button {
+  width: max-content;
 }

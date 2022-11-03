@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import useLogin from "../../../utils/useLogin/useLogin";
 import { Link, Navigate } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
 import NotificationDelineModal from "./NotificationDelineModal";
 import CreatePostModal from "./CreatePostModal";
 import CustomModal from "./CustomModal";
 import Nav from "../../general/Nav/index";
+import Post from "../../general/Post";
 
 import {
   UilHome,
@@ -15,25 +17,20 @@ import {
   UilClockTwo,
   UilShield,
   UilSignout,
-  UilHeart,
-  UilCommentDots,
-  UilShareAlt,
-  UilBookmarkFull,
-  UilEllipsisH,
 } from "@iconscout/react-unicons";
 
-import post from "../../../../assets/images/post.jpg";
 import "./index.scss";
-import useLogin from "../../../utils/useLogin/useLogin";
+import AddFriend from "../../general/ConfirmFriend";
+import ChatSmall from "../../general/ChatSmall";
 
 export default function Home() {
-  const {account} = useLogin();
+  const { account } = useLogin();
   const [show, setShow] = useState(false);
   const [showDeadline, setShowDeadline] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
 
-  if (!account){
+  if (!account) {
     return <Navigate to="/login" replace={true} />;
   }
   return (
@@ -173,476 +170,10 @@ export default function Home() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>{account.fullName}</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                      <br />
-                      <small> 26-10-2022 </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div>
-                  Ở đây ai đã từng thất bại trong tình yêu không nè?? Giơ tay
-                  lên nào 🙌🙌 👉 Chỉ mới mở màn thôi nhé, còn nhiều tiết mục
-                  cháy hơn thế nữa 🔥
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span className="custom-action">
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <span className="h5">15</span>
-                    </span>
-                    <span className="custom-action">
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <span className="h5">3</span>
-                    </span>
-                    <span className="custom-action">
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                    <button className="btn btn-primary">Bình luận</button>
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>{account.fullName}</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>{account.fullName}</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>{account.fullName}</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={account.avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={account.avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>{account.fullName}</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
+              <Post />
+              <Post />
+              <Post />
+              <Post />
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
@@ -652,7 +183,7 @@ export default function Home() {
           <div className="right">
             <div className="messages">
               <div className="heading">
-                <h4>Messages</h4> <i className="uil uil-edit"></i>
+                <h4>Nhắn tin</h4> <i className="uil uil-edit"></i>
               </div>
               {/* <!------------------------------- Search bar ----------------------------> */}
               <div className="search-bar">
@@ -663,79 +194,17 @@ export default function Home() {
                   placeholder="Tìm kiếm tin nhắn"
                 />
               </div>
-              {/* <!------------------------------- Messages Category ----------------------------> */}
-              <div className="category">
-                <h6 className="active">Tin nhắn</h6>
-                <h6 className="message-requests">Lời kết bạn (7)</h6>
-              </div>
               {/* <!------------------------------- Messages ----------------------------> */}
               <div className="all-messages">
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-
-                  <div className="message-body">
-                    <h5>{account.fullName}</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
-
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-
-                  <div className="message-body">
-                    <h5>Nguyễn Thăng</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
-
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-
-                  <div className="message-body">
-                    <h5>{account.fullName}</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
-
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-
-                  <div className="message-body">
-                    <h5>Đặng Hoàng Duy</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
-
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-
-                  <div className="message-body">
-                    <h5>Phan Nguyễn Đăng Trường</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
-
-                <div className="message">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                    <div className="active"></div>
-                  </div>
-
-                  <div className="message-body">
-                    <h5>{account.fullName}</h5>
-                    <p className="text-muted">Xin chào</p>
-                  </div>
-                </div>
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
+                <ChatSmall />
               </div>
             </div>
             {/* <!------------------------------- End Messages ----------------------------> */}
@@ -743,56 +212,9 @@ export default function Home() {
             {/* <!------------------------------- Friend Requests ----------------------------> */}
             <div className="friend-requests">
               <h4>Lời kết bạn</h4>
-              <div className="request">
-                <div className="info">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-                  <div>
-                    <h5>Nguyễn Thăng</h5>
-                    <p className="text-muted">2 bạn chung</p>
-                  </div>
-                </div>
-
-                <div className="action">
-                  <button className="btn btn-primary">Xác nhận</button>
-                  <button className="btn">Huỷ</button>
-                </div>
-              </div>
-
-              <div className="request">
-                <div className="info">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-                  <div>
-                    <h5>Phan Nguyễn Đăng Trường</h5>
-                    <p className="text-muted">2 bạn chung</p>
-                  </div>
-                </div>
-
-                <div className="action">
-                  <button className="btn btn-primary">Xác nhận</button>
-                  <button className="btn">Huỷ</button>
-                </div>
-              </div>
-
-              <div className="request">
-                <div className="info">
-                  <div className="profile-photo">
-                    <img src={account.avatar} alt="" />
-                  </div>
-                  <div>
-                    <h5>Đặng Hoàng Duy</h5>
-                    <p className="text-muted">2 bạn chung</p>
-                  </div>
-                </div>
-
-                <div className="action">
-                  <button className="btn btn-primary">Xác nhận</button>
-                  <button className="btn">Huỷ</button>
-                </div>
-              </div>
+              <AddFriend />
+              <AddFriend />
+              <AddFriend />
             </div>
             {/* <!------------------------------- End Friend Request ----------------------------> */}
           </div>

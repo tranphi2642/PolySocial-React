@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchFriend from "./SearchFriend";
-import avatar from "../../../../assets/images/1.jpg";
 import "./index.scss";
 import { UilSearch } from "@iconscout/react-unicons";
 import useLogin from "../../../utils/useLogin/useLogin";
 
 export default function Nav() {
-  const {account} = useLogin();
+  const { account } = useLogin();
   const [show, setShow] = useState(false);
 
   return (

@@ -20,7 +20,7 @@ import Nav from "../../general/Nav/index";
 import avatar from "../../../../assets/images/1.jpg";
 import post from "../../../../assets/images/post.jpg";
 
-export default function index() {
+export default function pageDetail() {
   return (
     <React.Fragment>
       <Nav />

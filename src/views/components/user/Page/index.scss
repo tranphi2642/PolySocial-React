@@ -700,7 +700,6 @@
   display: grid;
   place-items: center;
   font-size: 0.9rem;
-  display: none;
 }
 
 .modal-create-quiz .cart-create {
@@ -726,6 +725,11 @@
   border: 1px solid #e2e8f0;
   color: white;
   border-radius: 5px;
+}
+
+.form-create button i svg {
+  width: 20px;
+  height: 16px;
 }
 
 .form-create .form-input {
