@@ -8,7 +8,7 @@ import PageDetail from "./../views/components/user/PageDetail/index.jsx";
 import PagePeople from "./../views/components/user/PagePeople/index.jsx";
 import PageQuiz from "./../views/components/user/PageQuiz/index.jsx";
 import PageQuizDetail from "./../views/components/user/PageQuizDetail/index.jsx";
-import Messages from "./../components/Messages/index.jsx";
+import Messages from "./../views/components/general/Messages/index.jsx";
 import Admin from "./../views/components/admin/Home/index.jsx";
 import Revenus from "./../views/components/admin/Revenus/index.jsx";
 import Accounts from "./../views/components/admin/Accounts/index.jsx";
