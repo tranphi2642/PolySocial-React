@@ -218,7 +218,69 @@
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--color-light);
 }
+//page-search-join
 
+.left .page-search .page-search-join::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.left .page-search .page-search-join h4 {
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.left .page-search .page-search-join a {
+  transition: all 300ms ease;
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.left .page-search .page-search-join .page {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  background: var(--color-white);
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.left .page-search .page-search-join .page .page-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
+  overflow: hidden;
+}
+
+.left .page-search .page-search-join .page .page-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-search-join .page .handle h4 {
+  padding: 0.2rem 1rem;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.page-search-join .page .handle p {
+  padding: 0.2rem 1rem;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.page-search-join .page button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  margin-left: 10px;
+  text-align: center;
+}
+
+// page-join
 .left .page-search .page-join {
   width: 100%;
   height: 600px;

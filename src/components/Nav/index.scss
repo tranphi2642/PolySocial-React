@@ -71,6 +71,11 @@ nav .logo img {
   padding: var(--search-padding);
 }
 
+.search-bar i svg {
+  width: 20px;
+  height: 17px;
+}
+
 .search-bar input[type="search"] {
   background: transparent;
   width: 30vw;
@@ -133,9 +138,9 @@ nav .profile-picture img {
 }
 
 @media screen and (max-width: 992px) {
-  nav .search-bar {
-    display: none;
-  }
+  // nav .search-bar {
+  //   display: none;
+  // }
 
   main .container {
     grid-template-columns: 0 auto 5rem;
@@ -172,5 +177,54 @@ nav .profile-picture img {
 
   .customize-theme .card {
     width: 80vw;
+  }
+}
+
+.modal-search {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  font-size: 0.9rem;
+  // display: none;
+}
+
+.modal-search .cart-search {
+  background-color: var(--color-white);
+  padding: 1rem;
+  border-bottom-left-radius: var(--card-border-radius);
+  border-bottom-right-radius: var(--card-border-radius);
+  width: 35%;
+  height: max-content;
+}
+
+.modal-search .cart-search h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-search .form-search .modal-profile {
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.7rem;
+  width: 100%;
+}
+
+.modal-search .form-search .modal-profile .handle h4 {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.modal-search .form-search .modal-profile .handle-buttoms {
+  margin-left: 90px;
+
+  button {
+    margin-right: 0.5rem;
   }
 }
