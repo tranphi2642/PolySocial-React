@@ -28,7 +28,6 @@ class Axios {
       .catch((e) => {
         throw Error(e.response.data.message);
       });
-
     return response.data.data;
   }
 

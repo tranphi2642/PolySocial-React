@@ -5,7 +5,7 @@ import NotificationDelineModal from "./NotificationDelineModal";
 import CreatePostModal from "./CreatePostModal";
 import CustomModal from "./CustomModal";
 import Nav from "../../components/Nav/index";
-
+import { format } from 'date-fns'
 import {
   UilHome,
   UilBell,
@@ -25,12 +25,38 @@ import {
 import avatar from "../../assets/images/1.jpg";
 import post from "../../assets/images/post.jpg";
 import "./index.scss";
+import { useEffect } from "react";
+import PostApi from "../../api/User/PostApi";
 
 export default function Home() {
-  const [show, setShow] = useState(false);
-  const [showDeline, setShowDeline] = useState(false);
-  const [showCustom, setShowCustom] = useState(false);
-  const [showCreatePost, setShowCreatePost] = useState(false);
+  const [show, setShow] = useState(false);//
+  const [showDeline, setShowDeline] = useState(false);//
+  const [showCustom, setShowCustom] = useState(false);//
+  const [showCreatePost, setShowCreatePost] = useState(false);//
+  const [listPosts, setListPost] = useState([]);
+  // const [itemInputPost, setItemInputPost] = useState('');
+  // const [alert, setAlert] = useState(false);
+  useEffect(() => {
+    const fetchPostList = async () => {
+      try {
+        const response = await PostApi.getAllByAllPost();
+        setListPost(response.listPostDTO);
+        // console.log("-->", response);
+      } catch (error) {
+        console.log("Failed to fetch post list: ", error);
+      }
+    };
+    fetchPostList();
+    
+  }, []);
+
+  // useEffect(()=>{
+  //   if(alert){
+  //     setTimeout(()=>{
+  //       setAlert(false);
+  //     },2000)
+  //   }
+  // },[alert])
 
   return (
     <React.Fragment>
@@ -169,475 +195,124 @@ export default function Home() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                      <br />
-                      <small> 26-10-2022 </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
+            OK {alert && <h2>Thêm bài viết thành công</h2>}
+              <div>
+                {listPosts.map((item, index) => (
+                    <div>
+                      {" "}
+                      <div className="feed">
+                        <div className="head">
+                          <div className="user">
+                            <div className="profile-photo">
+                              <img src={item.user.avatar} alt="" />
+                            </div>
+                            <div className="info">
+                              <h3>{item.user.fullName}</h3>
+                              <small> {format(Date.parse(item.createdDate), 'hh:mm')} </small>
+                              <br />
+                              <small> {format(Date.parse(item.createdDate), 'dd/MM/yyyy')} </small>
+                            </div>
+                          </div>
+                          <span className="edit">
+                            <i>
+                              <UilEllipsisH />
+                            </i>
+                          </span>
+                        </div>
 
-                <div>
-                  Ở đây ai đã từng thất bại trong tình yêu không nè?? Giơ tay
-                  lên nào 🙌🙌 👉 Chỉ mới mở màn thôi nhé, còn nhiều tiết mục
-                  cháy hơn thế nữa 🔥
-                </div>
+                        <div>{item.content}</div>
 
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
+                        <div className="photo">
+                          <img src={post} alt="" />
+                        </div>
 
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span className="custom-action">
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <span className="h5">15</span>
-                    </span>
-                    <span className="custom-action">
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <span className="h5">3</span>
-                    </span>
-                    <span className="custom-action">
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
+                        <div className="action-buttons">
+                          <div className="interaction-buttons">
+                            <span className="custom-action">
+                              <i>
+                                <UilHeart />
+                              </i>
+                              <span className="h5">{item.countLike}</span>
+                            </span>
+                            <span className="custom-action">
+                              <i>
+                                <UilCommentDots />
+                              </i>
+                              <span className="h5">{item.countComment}</span>
+                            </span>
+                            <span className="custom-action">
+                              <i className="uil uil-share-alt">
+                                <UilShareAlt />
+                              </i>
+                            </span>
+                          </div>
+                          <div className="bookmark">
+                            <span>
+                              <i>
+                                <UilBookmarkFull />
+                              </i>
+                            </span>
+                          </div>
+                        </div>
 
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
+                        <div className="liked-by">
+                          <span>
+                            <img src={avatar} alt="" />
+                          </span>
+                          <span>
+                            <img src={avatar} alt="" />
+                          </span>
+                          <span>
+                            <img src={avatar} alt="" />
+                          </span>
 
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
+                          <p>
+                            Được thích bởi <b>Trần Phi</b> và{" "}
+                            <b> {item.countLike-1} người khác</b>{" "}
+                          </p>
+                        </div>
 
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
+                        <div className="cmt">
+                          <form className="create-cmt">
+                            <div className="profile-photo-cmt">
+                              <img src={avatar} alt="" />
+                            </div>
+                            <input
+                              type="text"
+                              name="post"
+                              id="create-cmt"
+                              placeholder="Viết bình luận..."
+                            />
+                            <button className="btn btn-primary">
+                              Bình luận
+                            </button>
+                          </form>
+                        </div>
+                        {item.listComment.map((cmt) => {
+                         return(
+                          <div>
+                             <div className="comments">
+                            <div className="profile-cmt">
+                              <div className="profile-photo-cmt">
+                                <img src={cmt.user.avatar} alt="" />
+                              </div>
+                              <div className="handle-cmt">
+                                <h4>{cmt.user.fullName}</h4>
+                                <p>{cmt.content}</p>
+                                <p>{format(Date.parse(cmt.user.createdDate), 'hh:mm -  dd/mm/yyyy')}</p>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                         )
+                        })}
+                        <div className="all-comments text-muted">
+                          Xem tất cả các bình luận
+                        </div>
+                      </div>
                     </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                    <button className="btn btn-primary">Bình luận</button>
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="cmt">
-                  <form className="create-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <input
-                      type="text"
-                      name="post"
-                      id="create-cmt"
-                      placeholder="Viết bình luận..."
-                    />
-                  </form>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comments">
-                  <div className="profile-cmt">
-                    <div className="profile-photo-cmt">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="handle-cmt">
-                      <h4>Trần Phi</h4>
-                      <p>Bài viết này xịn quá</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="all-comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
+                  // );
+                ))}
               </div>
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
