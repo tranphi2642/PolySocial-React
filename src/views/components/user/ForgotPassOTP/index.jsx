@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ForgotPass() {
+export default function ForgotPassOTP() {
   return (
     <div>
       <section className="login">
@@ -14,17 +14,16 @@ export default function ForgotPass() {
               />
             </header>
             <form action="/">
-              <label htmlFor="email">Hãy nhập email của bạn để xác minh</label>
+              <label htmlFor="email">Hãy nhập OTP của bạn để xác minh</label>
               <div className="field input-field">
                 <input
-                  type="email"
-                  placeholder="Email"
+                  type="text"
                   className="input"
-                  defaultValue={"phitmps16509@fpt.edu.vn"}
+                  defaultValue={"12312312"}
                 />
               </div>
               <div className="link-field">
-                <Link to={"/forgotPassOTP"}>Gửi mã OTP ?</Link>
+                <Link to={"/login"}>Bạn có muốn đăng nhập ?</Link>
               </div>
               <div className="field button-field">
                 <button type="submit">Kiểm tra</button>
