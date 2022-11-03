@@ -50,8 +50,7 @@ main .container {
 
 main .container .left {
   height: max-content;
-  position: fixed;
-  width: 37vh;
+  position: sticky;
   top: var(--sticky-top-left);
 }
 
@@ -298,19 +297,18 @@ main .container .left a {
 
 /*================== CREATE POST ==================*/
 .middle .create-post {
-  width: 77vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--color-white);
   border-radius: var(--card-border-radius);
   padding: var(--card-padding);
-  margin-left: 42vh;
 }
 
 .middle .create-post input[type="text"] {
   justify-self: start;
-  width: 100vh;
+  width: 100%;
   padding-left: 1rem;
   background: transparent;
   color: var(--color-dark);
@@ -318,12 +316,6 @@ main .container .left a {
 }
 
 /*================== FEEDs ==================*/
-
-.middle .feeds {
-  width: 77vh;
-  margin-left: 42vh;
-}
-
 .middle .feeds .feed {
   background: var(--color-white);
   border-radius: var(--card-border-radius);
@@ -463,12 +455,10 @@ main .container .left a {
 
 /*================== RIGHT ==================*/
 main .container .right {
-  width: 40vh;
   height: max-content;
   position: sticky;
   top: var(--sticky-top-right);
   bottom: 0;
-  margin-left: 83vh;
 }
 
 .right .messages {
