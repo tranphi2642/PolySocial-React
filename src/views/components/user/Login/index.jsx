@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import "font-awesome/css/font-awesome.min.css";
 import { UilEyeSlash } from "@iconscout/react-unicons";
@@ -21,7 +21,7 @@ export default function Login() {
       setAccount(response.data);
       this.props.history.push("/home");
     } else {
-      alert(response.data.message)
+      alert(response.data.message);
     }
   };
 
@@ -43,6 +43,8 @@ export default function Login() {
       case "password":
         setTypePassword("text");
         break;
+      default:
+        setTypePassword("password");
     }
   };
 

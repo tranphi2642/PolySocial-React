@@ -2,9 +2,9 @@ import React from "react";
 import Nav from "../Nav/index";
 import { UilPhoneAlt, UilVideo, UilEllipsisV } from "@iconscout/react-unicons";
 
-import avatar from "images/1.jpg";
-import attach from "images/attach.png";
-import img from "images/img.png";
+import avatar from "./../../../../assets/images/1.jpg";
+import attach from "./../../../../assets/images/attach.png";
+import img from "./../../../../assets/images/img.png";
 import "./index.scss";
 
 export default function Messages() {

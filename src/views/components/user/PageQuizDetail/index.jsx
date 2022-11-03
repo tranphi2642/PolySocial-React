@@ -16,7 +16,7 @@ import Nav from "../../general/Nav/index";
 
 import avatar from "../../../../assets/images/1.jpg";
 
-export default function index() {
+export default function PageQuizDetail() {
   return (
     <React.Fragment>
       <Nav />

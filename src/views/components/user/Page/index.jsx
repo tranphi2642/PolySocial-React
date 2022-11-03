@@ -15,7 +15,7 @@ import avatar from "../../../../assets/images/1.jpg";
 import post from "../../../../assets/images/post.jpg";
 import "./index.scss";
 
-export default function index() {
+export default function Page() {
   return (
     <React.Fragment>
       <Nav />

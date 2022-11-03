@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchFriend from "./SearchFriend";
-import avatar from "../../../../assets/images/1.jpg";
 import "./index.scss";
-import { UilSearch } from "@iconscout/react-unicons";
+import {
+  UilSearch,
+  UilSignout,
+  UilUser,
+  UilLock,
+} from "@iconscout/react-unicons";
 import useLogin from "../../../utils/useLogin/useLogin";
 
 export default function Nav() {
-  const {account} = useLogin();
+  const { account } = useLogin();
   const [show, setShow] = useState(false);
 
   return (
@@ -33,9 +37,32 @@ export default function Nav() {
           />
           <SearchFriend onClose={() => setShow(false)} show={show} />
         </div>
-        <div className="profile-picture">
-          <span>{account.fullName}</span>
-          <img src={account.avatar} alt="" />
+        <div className="dropdown">
+          <div className="profile-picture">
+            <span>{account.fullName}</span>
+            <img src={account.avatar} alt="" />
+          </div>
+          <div className="dropdown-content">
+            <p className="text-muted">Sinh viên FPT</p>
+            <Link to={"/profile"}>
+              <i>
+                <UilUser />
+              </i>
+              Thông tin
+            </Link>
+            <Link to={"/changePass"}>
+              <i>
+                <UilLock />
+              </i>
+              Đổi mật khẩu
+            </Link>
+            <Link to={"/logout"}>
+              <i>
+                <UilSignout />
+              </i>
+              Đăng xuất
+            </Link>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   UilHome,
@@ -14,8 +14,11 @@ import {
 import Nav from "../../general/Nav/index";
 
 import avatar from "../../../../assets/images/1.jpg";
+import CreateModalQuiz from "./CreateModalQuiz";
 
-export default function index() {
+export default function PageQuiz() {
+  const [show, setShow] = useState(false);
+
   return (
     <React.Fragment>
       <Nav />
@@ -226,7 +229,7 @@ export default function index() {
               <button>Tìm hiểu thêm</button>
             </div>
             <div className="create-quiz">
-              <Link id="createQuiz">
+              <Link id="createQuiz" onClick={() => setShow(true)}>
                 <i>
                   <UilPlus />
                 </i>{" "}
@@ -236,6 +239,7 @@ export default function index() {
           </div>
         </div>
       </main>
+      <CreateModalQuiz onClose={() => setShow(false)} show={show} />
     </React.Fragment>
   );
 }
