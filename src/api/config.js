@@ -1,5 +1,5 @@
 const CONFIG = {
-  URL: "http://localhost:8080",
+  URL: "",
   HEADERS: {
     "Content-Type": "application/json",
   },

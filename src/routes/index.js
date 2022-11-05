@@ -100,7 +100,7 @@ const publicRouters = [
     component: Groups,
   },
   {
-    path: "/admin/groupDetails",
+    path: "/admin/groupDetails/:id",
     component: GroupDetails,
   },
   {
