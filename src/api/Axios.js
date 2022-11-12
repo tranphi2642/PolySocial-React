@@ -16,6 +16,7 @@ class Axios {
   }
 
   static async get(url, headers) {
+    console.log(Config.HEADERS);
     const response = await axios
       .get(`${Config.URL}${url}`, {
         headers: {
