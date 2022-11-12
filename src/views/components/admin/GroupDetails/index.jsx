@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CreateUser from "./CreateUserModal";
 import DeleteUser from "./DeleteUserModal";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NavAdmin from "../../general/NavAdmin/index";
+import Asios from "./../../../../api/index";
 import {
   UilBars,
   UilPlus,
@@ -16,6 +17,23 @@ import avatar from "../../../../assets/images/1.jpg";
 export default function GroupDetails() {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [students, setStudent] = useState([]);
+  const { id } = useParams();
+  const userId = useRef(0);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const handleShowEdit = (id) => {
+    userId.current = id;
+    setShowEdit(true);
+  };
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.get_all_student_group(id);
+    setStudent(response);
+  };
 
   return (
     <React.Fragment>
@@ -70,123 +88,40 @@ export default function GroupDetails() {
           <table className="styled-table">
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Họ và tên</th>
-                <th>Trạng thái</th>
-                <th>Tên nhóm</th>
-                <th>Khoá</th>
+                <th>STT</th>
+                <th>Mã người tham gia</th>
+                <th>Mã nhóm tham gia</th>
+                <th>Giảng viên</th>
                 <th></th>
               </tr>
             </thead>
             <tbody className="body">
-              <tr className="active-row">
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>Đã tạo</td>
-                <td>2</td>
-                <td>Khoá 16</td>
-                <td>
-                  <Link
-                    className="deleteUser"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
+              {students?.map((st, index) => (
+                <tr className="active-row" key={index}>
+                  <td>{index + 1}</td>
+                  <td>{st.userId}</td>
+                  <td>{st.groupId}</td>
+                  <td>
+                    {st.isTeacher ? "Có giảng viên" : "Không có giảng viên"}
+                  </td>
+                  <td>
+                    <Link
+                      className="deleteUser"
+                      onClick={() => handleShowEdit(st.userId)}
+                    >
+                      <i>
+                        <UilEdit />
+                      </i>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
       <CreateUser onClose={() => setShow(false)} show={show} />
-      <DeleteUser showEdit={showEdit} />
+      <DeleteUser showEdit={showEdit} userId={userId} />
     </React.Fragment>
   );
 }

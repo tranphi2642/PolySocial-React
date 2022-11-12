@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import GroupModal from "./CreateGroupModal";
 import EditGroupModal from "./EditGroupModal";
 import { Link } from "react-router-dom";
 import NavAdmin from "../../general/NavAdmin/index";
+import Asios from "./../../../../api/index";
 import {
   UilBars,
   UilPlus,
@@ -16,6 +17,22 @@ import avatar from "../../../../assets/images/1.jpg";
 export default function Groups() {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [groups, setGroup] = useState([]);
+  const groupId = useRef(0);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.get_all_groups();
+    setGroup(response.content);
+  };
+
+  const handleShowEdit = (id) => {
+    groupId.current = id;
+    setShowEdit(true);
+  };
 
   return (
     <React.Fragment>
@@ -80,132 +97,40 @@ export default function Groups() {
               </tr>
             </thead>
             <tbody className="body">
-              <tr className="active-row">
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <Link to={"/admin/groupDetails"}>Web </Link>
-                </td>
-                <td>31</td>
-                <td>Đã tạo</td>
-                <td>Khoá 17</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateGroup"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
+              {groups.map((group, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <Link to={`/admin/groupDetails/${group.groupId}`}>
+                      {group.name}{" "}
+                    </Link>
+                  </td>
+                  <td>{group.totalMember}</td>
+                  <td>{group.status ? "Đã tạo" : "Chưa tạo"}</td>
+                  <td>{group.description}</td>
+                  <td>{group.createdDate}</td>
+                  <td>
+                    <Link
+                      className="updateGroup"
+                      onClick={() => handleShowEdit(group.groupId)}
+                    >
+                      <i>
+                        <UilEdit />
+                      </i>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
       <GroupModal onClose={() => setShow(false)} show={show} />
-      <EditGroupModal onClose={() => setShowEdit(false)} showEdit={showEdit} />
+      <EditGroupModal
+        onClose={() => setShowEdit(false)}
+        showEdit={showEdit}
+        groupId={groupId}
+      />
     </React.Fragment>
   );
 }

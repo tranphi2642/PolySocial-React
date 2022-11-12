@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import API from "../../../../../src/api";
+import React, { useState } from "react";
 import AccountModal from "./CreateAccountModal";
 import EditAccountModal from "./EditAccountModal";
 import { Link } from "react-router-dom";
@@ -18,15 +17,6 @@ import "./index.scss";
 export default function Accounts() {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-
-  useEffect(() => {
-    getAllData();
-  }, []);
-
-  const getAllData = async () => {
-    const response = await API.Accounts.getAll();
-    console.log(response);
-  };
 
   return (
     <React.Fragment>

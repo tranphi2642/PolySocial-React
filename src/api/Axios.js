@@ -10,9 +10,8 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .then(result => result)
-      .catch(error => error.response)
-      console.log("response: ", response);
+      .then((result) => result)
+      .catch((error) => error.response);
     return response;
   }
 
@@ -24,10 +23,8 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
-
+      .then((result) => result)
+      .catch((error) => error.response);
     return response.data;
   }
 
@@ -39,9 +36,8 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
+      .then((result) => result)
+      .catch((error) => error.response);
 
     return response.data;
   }
@@ -54,9 +50,8 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
+      .then((result) => result)
+      .catch((error) => error.response);
 
     return response.data;
   }
