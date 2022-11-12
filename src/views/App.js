@@ -1,6 +1,10 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { publicRouters } from '../routes'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { publicRouters } from "../routes";
 
 function App() {
   return (
@@ -8,13 +12,14 @@ function App() {
       <div className="App">
         <Routes>
           {publicRouters.map((route, index) => {
-            const Page = route.component
-            return <Route key={index} path={route.path} element={<Page />} />
+            const Page = route.component;
+            return <Route key={index} path={route.path} element={<Page />} />;
           })}
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

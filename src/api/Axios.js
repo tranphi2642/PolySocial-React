@@ -10,11 +10,9 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
-
-    return response.data.data;
+      .then((result) => result)
+      .catch((error) => error.response);
+    return response;
   }
 
   static async get(url, headers) {
@@ -25,10 +23,9 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
-    return response.data.data;
+      .then((result) => result)
+      .catch((error) => error.response);
+    return response.data;
   }
 
   static async put(url, data, headers) {
@@ -39,11 +36,10 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
+      .then((result) => result)
+      .catch((error) => error.response);
 
-    return response.data.data;
+    return response.data;
   }
 
   static async delete(url, headers) {
@@ -54,11 +50,10 @@ class Axios {
           ...Config.HEADERS,
         },
       })
-      .catch((e) => {
-        throw Error(e.response.data.message);
-      });
+      .then((result) => result)
+      .catch((error) => error.response);
 
-    return response.data.data;
+    return response.data;
   }
 }
 
