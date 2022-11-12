@@ -50,6 +50,10 @@ export default function Home() {
     
   }, []);
 
+  const changeId = (e) => {
+    console.log('run');
+    console.log(e.target.value);
+  };
   // useEffect(()=>{
   //   if(alert){
   //     setTimeout(()=>{
@@ -189,7 +193,7 @@ export default function Home() {
                 type="submit"
                 value="Đăng bài"
                 className="btn btn-primary"
-              />
+              /> 
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
 
@@ -200,6 +204,7 @@ export default function Home() {
                 {listPosts.map((item, index) => (
                     <div>
                       {" "}
+                      {/* test{item.postId} */}
                       <div className="feed">
                         <div className="head">
                           <div className="user">
@@ -221,10 +226,14 @@ export default function Home() {
                         </div>
 
                         <div>{item.content}</div>
-
-                        <div className="photo">
-                          <img src={post} alt="" />
-                        </div>
+                        {item.listUrl.map((url)=>{
+                        return(
+                          <div className="photo">
+                        <img src={url.urlFile} alt="" />
+                      </div>
+                        )
+                        })}
+                        
 
                         <div className="action-buttons">
                           <div className="interaction-buttons">

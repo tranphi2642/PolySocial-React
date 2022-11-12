@@ -21,22 +21,21 @@ class AxiosClient {
     return response.data;
   }
 
-  // static async postFile(url, data, headers) {
-  //   const response = await axios
-  //     .post(`${Config.URL}${url}`,data ,{
-  //       headers: {
-  //         ...headers,
-  //         Authorization: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjY3NDAxOTA0LCJleHAiOjE2NjgwMDY3MDR9.17UnVCho1Aey0QjZC_V5FhjOANwv54r8Y9O6JcLEr-oXK6QWZGKqanfYbumjTNkLs3tORxg99igFRm-Ew6fPiw",
-  //         ...{ "Content-Type": "multipart/form-data" },
-  //       },
-  //     })
-  //     .catch((e) => {
-  //       throw Error(e.response.data.message);
-  //     }); 
-  //     console.log("resp->",response)
-  //   return response.data;
-  // }
-
+  static async postFile(url, data, headers) {
+    const response = await axios
+      .post(`${Config.URL}${url}`,data ,{
+        headers: {
+          ...headers,
+          Authorization: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjY3NjQ1OTUwLCJleHAiOjE2NjgyNTA3NTB9.EgNmFIRimlLKp1aalg_TaRH1CSOfN0Ox9esi9DgRlUIjh3hGliZXm3sC8gPzSQWrlbnlN0HojBywgQlsp08SsQ",
+          ...{ "Content-Type": "multipart/form-data" },
+        },
+      })
+      .catch((e) => {
+        throw Error(e.response.data.message);
+      }); 
+      console.log("resp->",response)
+    return response.data;
+  }
   
   static async get(url, headers) {
     const response = await axios
@@ -49,6 +48,7 @@ class AxiosClient {
       .catch((e) => {
         throw Error(e.response.data.message);
       });
+      console.log(response.data)
     return response.data;
   }
 

@@ -1,42 +1,39 @@
 import React, { useState } from "react";
 import PostApi from "../../api/User/PostApi";
+import { useEffect } from "react";
+
 // import React from "react";
 
 import avatar from "../../assets/images/1.jpg";
 
-// export default function Home(){
-//   console.log("run")
 export default function CreatePostModal(props) {
   const [itemInputPost, setItemInputPost] = useState("");
   const [file, setFile] = useState("");
-  // const [showCreatePost, setShowCreatePost] = useState(true);
-  // const [selectedFile, setSelectedFile] = React.useState(null);
-
-  const state={
-    file:null
-  }
 
   const imageUpload = (e) => {
     setFile(e.target.files[0]);
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // PostApi.upLoadFile(formData);
   };
 
-  const upLoadFile = ()=>{
+  // const upLoadFile = ()=>{
+  //   const formData = new FormData()
+  //   formData.append('file',file)
+  //   PostApi.upLoadFile(formData);
+  // }
+
+  //kkkk
+  const handleSummit = async (e) => {
+    props.onClose();
     const formData = new FormData()
     formData.append('file',file)
-    PostApi.upLoadFile(formData);
-  }
-
-
-//kkkk
-  const handleSummit = (e) => {
-    e.preventDefault();
-    PostApi.createPost(itemInputPost);
+    await PostApi.upLoadFile(formData);
+    await PostApi.createPost(itemInputPost);
   };
   if (!props.showCreatePost) {
     return null;
   }
-
- 
 
   return (
     <div className="modal-create-post" onClick={props.onClose}>
@@ -68,15 +65,17 @@ export default function CreatePostModal(props) {
           <div className="form-input">
             <label htmlFor="upload">Tải ảnh</label>
             <input
-              type="file" multiple
-              id="file" name="file" 
+              type="file"
+              multiple
+              id="file"
+              name="file"
               accept="image/jpeg, image/png, image/jpg"
               onChange={imageUpload}
               placeholder="Hãy chọn ảnh của bạn."
             />
           </div>
 
-          <button onClick={upLoadFile} className="btn btn-primary">Đăng bài</button>
+          <button className="btn btn-primary" >Đăng bài</button>
         </form>
       </div>
     </div>
