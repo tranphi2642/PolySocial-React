@@ -28,6 +28,8 @@ const EditContentModal = (props) => {
       alert("Update group successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Update group failed!");
     }
   };
 
@@ -37,6 +39,8 @@ const EditContentModal = (props) => {
       alert("Delete group successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Delete group failed!");
     }
   };
 

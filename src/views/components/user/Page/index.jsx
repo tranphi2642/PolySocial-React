@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   UilSearch,
@@ -10,12 +10,24 @@ import {
   UilSignOutAlt,
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
+import Asios from "./../../../../api/index";
 
 import avatar from "../../../../assets/images/1.jpg";
 import post from "../../../../assets/images/post.jpg";
 import "./index.scss";
 
 export default function Page() {
+  const [groups, setGroup] = useState([]);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.get_all_groups();
+    setGroup(response.content);
+  };
+
   return (
     <React.Fragment>
       <Nav />
@@ -54,155 +66,26 @@ export default function Page() {
               <hr />
               <div className="page-join">
                 <h4>Nhóm bạn đã tham gia</h4>
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
+                {groups.map((group, index) => (
+                  <Link
+                    to={`/pageDetail/${group.groupId}`}
+                    className="page"
+                    key={index}
+                  >
+                    <div className="page-photo">
+                      <img
+                        src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
+                        alt=""
+                      />
+                    </div>
+                    <div className="handle">
+                      <h4>{group.name}</h4>
+                      <p className="text-muted">
+                        Lần hoạt động gần nhất: 1 tháng trước
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import Asios from "./../../../../api/index";
 import {
   UilHome,
   UilUsersAlt,
@@ -18,6 +19,17 @@ import CreateModalQuiz from "./CreateModalQuiz";
 
 export default function PageQuiz() {
   const [show, setShow] = useState(false);
+  const [group, setGroup] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.get_one_group(id);
+    setGroup(response);
+  };
 
   return (
     <React.Fragment>
@@ -32,12 +44,12 @@ export default function PageQuiz() {
               />
             </div>
             <div className="title">
-              <span>SYB.IT16307_3.B2.2022</span>
+              <span>{group.name}</span>
               <p className="text-muted">
                 <i>
                   <UilLock />
                 </i>{" "}
-                Nhóm riêng tư - <i>31 thành viên</i>
+                Nhóm riêng tư - <i>{group.totalMember} thành viên</i>
               </p>
             </div>
             <div className="join">
@@ -61,7 +73,10 @@ export default function PageQuiz() {
             </div>
             {/* <!------------------------------- Side bar ----------------------------> */}
             <div className="sidebar">
-              <Link to={"/pageDetail"} className="menu-item active">
+              <Link
+                to={`/pageDetail/${group.groupId}`}
+                className="menu-item active"
+              >
                 <span>
                   <i>
                     <UilHome />
@@ -69,7 +84,7 @@ export default function PageQuiz() {
                 </span>
                 <h3>Trang chủ</h3>
               </Link>
-              <Link to={"/pagePeoples"} className="menu-item">
+              <Link to={`/pagePeoples/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilUsersAlt />
@@ -85,7 +100,7 @@ export default function PageQuiz() {
                 </span>
                 <h3>Phản hồi</h3>
               </Link>
-              <Link to={"/pageQuizs"} className="menu-item">
+              <Link to={`/pageQuizs/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilFileUpload />

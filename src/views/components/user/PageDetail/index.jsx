@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import Asios from "./../../../../api/index";
 import {
   UilHome,
   UilUsersAlt,
@@ -20,7 +21,19 @@ import Nav from "../../general/Nav/index";
 import avatar from "../../../../assets/images/1.jpg";
 import post from "../../../../assets/images/post.jpg";
 
-export default function pageDetail() {
+export default function PageDetail() {
+  const [group, setGroup] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.get_one_group(id);
+    setGroup(response);
+  };
+
   return (
     <React.Fragment>
       <Nav />
@@ -34,12 +47,12 @@ export default function pageDetail() {
               />
             </div>
             <div className="title">
-              <span>SYB.IT16307_3.B2.2022</span>
+              <span>{group.name}</span>
               <p className="text-muted">
                 <i>
                   <UilLock />
                 </i>{" "}
-                Nhóm riêng tư - <i>31 thành viên</i>
+                Nhóm riêng tư - <i>{group.totalMember} thành viên</i>
               </p>
             </div>
             <div className="join">
@@ -63,7 +76,10 @@ export default function pageDetail() {
             </div>
             {/* <!------------------------------- Side bar ----------------------------> */}
             <div className="sidebar">
-              <Link to={"/pageDetail"} className="menu-item active">
+              <Link
+                to={`/pageDetail/${group.groupId}`}
+                className="menu-item active"
+              >
                 <span>
                   <i>
                     <UilHome />
@@ -71,7 +87,7 @@ export default function pageDetail() {
                 </span>
                 <h3>Trang chủ</h3>
               </Link>
-              <Link to={"/pagePeoples"} className="menu-item">
+              <Link to={`/pagePeoples/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilUsersAlt />
@@ -87,7 +103,7 @@ export default function pageDetail() {
                 </span>
                 <h3>Phản hồi</h3>
               </Link>
-              <Link to={"/pageQuizs"} className="menu-item">
+              <Link to={`/pageQuizs/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilFileUpload />

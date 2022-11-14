@@ -15,6 +15,8 @@ const EditContentModal = (props) => {
       alert("Delete student successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Delete student failed!");
     }
   };
 

@@ -15,7 +15,15 @@ class Groups {
 
   //API create new group by excel
   static create_group_excel = async (file) =>
-    Axios.post("/group/api/create-file", file);
+    Axios.post(
+      "/group/api/create-file",
+      { data: file },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
   //API update group
   static update_group = async (data) =>
@@ -38,8 +46,8 @@ class Groups {
     Axios.get(`/group/api/get-student?email=${email}&groupId=${groupId}`);
 
   //API create student in group
-  static create_student_group = async (userId, groupId) =>
-    Axios.post(`/group/api/create-student?userId=${userId}&groupId=${groupId}`);
+  static create_student_group = async (data) =>
+    Axios.post("/group/api/create-student", data);
 
   //API delete student in group
   static delete_student_group = async (userId, groupId) =>

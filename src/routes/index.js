@@ -64,15 +64,15 @@ const publicRouters = [
     component: Page,
   },
   {
-    path: "/pageDetail",
+    path: "/pageDetail/:id",
     component: PageDetail,
   },
   {
-    path: "/pagePeoples",
+    path: "/pagePeoples/:id",
     component: PagePeople,
   },
   {
-    path: "/pageQuizs",
+    path: "/pageQuizs/:id",
     component: PageQuiz,
   },
   {
