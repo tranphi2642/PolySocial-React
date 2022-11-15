@@ -43,8 +43,6 @@ export default function Post() {
     const response = await Axios.Comments.createComment(data);
     if (response) {
       window.location.reload();
-    } else {
-      alert("FALSE CMT");
     }
   };
 
@@ -55,8 +53,6 @@ export default function Post() {
     const response = await Axios.Likes.likeUnLike(data);
     if (response) {
       window.location.reload();
-    } else {
-      alert("FALSE Like");
     }
   };
 
@@ -68,7 +64,7 @@ export default function Post() {
   return (
     <div>
       {listPosts.map((item, index) => (
-        <div>
+        <div key={index}>
           <input
             type="hidden"
             value={item.postId}
@@ -105,11 +101,11 @@ export default function Post() {
 
             <div className="action-buttons">
               <div className="interaction-buttons">
-                <button onClick={(e) => likeUnLike(e, item.postId)}>
-                  Like
-                </button>
                 <span className="custom-action">
-                  <button type="button">
+                  <button
+                    type="button"
+                    onClick={(e) => likeUnLike(e, item.postId)}
+                  >
                     <i>
                       <UilHeart />
                     </i>

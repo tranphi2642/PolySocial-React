@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddFriend from "../AddFriend";
+import Asios from "./../../../../api/index";
 
 const SearchFriend = (props) => {
+  const [showSearch, setShowSearch] = useState([]);
+
+  useEffect(() => {
+    searchFriend();
+  }, [props.search]);
+
+  const searchFriend = async () => {
+    const response = await Asios.Friends.searchUserByEmail(props.search);
+    setShowSearch(response);
+  };
+
   if (!props.show) {
     return null;
   }
@@ -9,13 +21,12 @@ const SearchFriend = (props) => {
   return (
     <div className="modal-search" onClick={props.onClose}>
       <div className="cart-search" onClick={(e) => e.stopPropagation()}>
-        <form className="form-search">
+        <div className="form-search">
           <h2>Tìm kiếm bạn</h2>
-          <AddFriend />
-          <AddFriend />
-          <AddFriend />
-          <AddFriend />
-        </form>
+          {showSearch.map((item) => (
+            <AddFriend {...item} />
+          ))}
+        </div>
       </div>
     </div>
   );

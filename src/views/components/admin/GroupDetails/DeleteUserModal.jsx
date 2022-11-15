@@ -11,9 +11,8 @@ const EditContentModal = (props) => {
       props.userId.current,
       id
     );
-    if (!response) {
+    if (response.status === 200) {
       alert("Delete student successfully!");
-      props.onClose();
       window.location.reload();
     } else {
       alert("Delete student failed!");

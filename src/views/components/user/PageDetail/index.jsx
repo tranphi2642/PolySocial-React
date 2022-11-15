@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Asios from "./../../../../api/index";
+import Post from "../../general/Post";
 import {
   UilHome,
   UilUsersAlt,
@@ -56,19 +57,19 @@ export default function PageDetail() {
               </p>
             </div>
             <div className="join">
-              <button>
+              <button type="button">
                 <i>
                   <UilUserCheck />
                 </i>{" "}
                 Đã tham gia
               </button>
-              <button>
+              <button type="button">
                 <i>
                   <UilPlus />
                 </i>
                 Mời{" "}
               </button>
-              <button>
+              <button type="button">
                 <i>
                   <UilEllipsisH />
                 </i>{" "}
@@ -143,293 +144,7 @@ export default function PageDetail() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
+              <Post />
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>

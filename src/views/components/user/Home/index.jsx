@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 import { Link, Navigate } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
@@ -7,6 +7,7 @@ import CreatePostModal from "./CreatePostModal";
 import CustomModal from "./CustomModal";
 import Nav from "../../general/Nav/index";
 import Post from "../../general/Post";
+import Asios from "./../../../../api/index";
 
 import {
   UilHome,
@@ -29,12 +30,20 @@ export default function Home() {
   const [showDeadline, setShowDeadline] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
+  const [showRequestFriend, setShowRequestFriend] = useState([]);
+
+  useEffect(() => {
+    getRequestFriend();
+  }, []);
+
+  const getRequestFriend = async () => {
+    const response = await Asios.Friends.getAllRequestAddFriend();
+    setShowRequestFriend(response);
+  };
 
   if (!account) {
     return <Navigate to="/login" replace={true} />;
   }
-
-  
 
   return (
     <React.Fragment>
@@ -163,11 +172,6 @@ export default function Home() {
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
                 onClick={() => setShowCreatePost(true)}
               />
-              {/* <input
-                type="button"
-                value="Đăng bài"
-                className="btn btn-primary"
-              /> */}
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
 
@@ -189,9 +193,9 @@ export default function Home() {
             {/* <!------------------------------- Friend Requests ----------------------------> */}
             <div className="friend-requests">
               <h4>Lời kết bạn</h4>
-              <AddFriend />
-              <AddFriend />
-              <AddFriend />
+              {showRequestFriend.map((item) => (
+                <AddFriend {...item} />
+              ))}
             </div>
             {/* <!------------------------------- End Friend Request ----------------------------> */}
           </div>

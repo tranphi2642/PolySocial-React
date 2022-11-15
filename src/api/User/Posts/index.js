@@ -2,7 +2,7 @@ import Axios from "../../Axios";
 
 class Posts {
   //API get all groups
-  static getAllByAllPost = async () => Axios.get("/post/api/posts");
+  static getAllByAllPost = async () => Axios.get("/api/posts");
 
   static createPost = async (data) => Axios.post("/api/posts", data);
 
