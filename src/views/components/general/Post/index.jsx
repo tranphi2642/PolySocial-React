@@ -10,7 +10,6 @@ import {
 
 import CommentPost from "../CommentPost";
 import LikePost from "../LikePost";
-import { format } from "date-fns";
 import Axios from "./../../../../api/index";
 
 export default function Post() {
@@ -24,25 +23,24 @@ export default function Post() {
   });
 
   useEffect(() => {
-    const fetchPostList = async () => {
-      try {
-        const response = await Axios.Posts.getAllByAllPost();
-        setListPost(response.listPostDTO);
-      } catch (error) {
-        console.log("Failed to fetch post list: ", error);
-      }
-    };
     fetchPostList();
   }, []);
 
+  const fetchPostList = async () => {
+    try {
+      const response = await Axios.Posts.getAllByAllPost();
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
+
   const createComment = async (e, postId) => {
     const data = {
-      postId:postId,
-      content :itemInputComment.content
-    }
-    const response = await Axios.Comments.createComment(
-      data
-    );
+      postId: postId,
+      content: itemInputComment.content,
+    };
+    const response = await Axios.Comments.createComment(data);
     if (response) {
       window.location.reload();
     } else {
@@ -52,16 +50,14 @@ export default function Post() {
 
   const likeUnLike = async (e, postId) => {
     const data = {
-      postId:postId,
-    }
-    const response = await Axios.Likes.likeUnLike(
-      data
-    );
+      postId: postId,
+    };
+    const response = await Axios.Likes.likeUnLike(data);
     if (response) {
       window.location.reload();
     } else {
       alert("FALSE Like");
-  }
+    }
   };
 
   const handleChange = (e, id) => {
@@ -86,15 +82,9 @@ export default function Post() {
                 </div>
                 <div className="info">
                   <h3>{item.user.fullName}</h3>
-                  <small>
-                    {" "}
-                    {format(Date.parse(item.createdDate), "hh:mm")}{" "}
-                  </small>
+                  <small> {item.createdDate} </small>
                   <br />
-                  <small>
-                    {" "}
-                    {format(Date.parse(item.createdDate), "dd/MM/yyyy")}{" "}
-                  </small>
+                  <small> {item.createdDate} </small>
                 </div>
               </div>
               <span className="edit">
@@ -115,7 +105,9 @@ export default function Post() {
 
             <div className="action-buttons">
               <div className="interaction-buttons">
-              <button onClick={(e) => likeUnLike(e, item.postId)}>Like</button>
+                <button onClick={(e) => likeUnLike(e, item.postId)}>
+                  Like
+                </button>
                 <span className="custom-action">
                   <i>
                     <UilHeart />

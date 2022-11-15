@@ -1,7 +1,5 @@
 import React from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
-import { format } from "date-fns";
-
 
 export default function CommentPost({ item }) {
   const { account } = useLogin();
@@ -15,7 +13,7 @@ export default function CommentPost({ item }) {
             </div>
             <div className="handle-cmt">
               <h4>{cmt.user.fullName}</h4>
-              <p>{format(Date.parse(cmt.createdDate), "hh:mm")}</p>
+              <p>{cmt.createdDate}</p>
               <p>{cmt.content}</p>
             </div>
           </div>

@@ -166,10 +166,10 @@ export default function PagePeople() {
                 {members.map((member, index) => (
                   <div className="profile" key={index}>
                     <div className="profile-photo-1">
-                      <img src={avatar} alt="" />
+                      <img src={member.avatar} alt="" />
                     </div>
                     <div className="handle">
-                      <h4>{member.userId}</h4>
+                      <h4>{member.fullName}</h4>
                       <p className="text-muted">Đã tham gia vào tháng trước</p>
                     </div>
 

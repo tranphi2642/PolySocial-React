@@ -32,6 +32,7 @@ export default function GroupDetails() {
 
   const getAllData = async () => {
     const response = await Asios.Groups.get_all_student_group(id);
+    console.log(response);
     setStudent(response);
   };
 
@@ -89,9 +90,9 @@ export default function GroupDetails() {
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Mã người tham gia</th>
-                <th>Mã nhóm tham gia</th>
-                <th>Giảng viên</th>
+                <th>Mã số sinh viên</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
                 <th></th>
               </tr>
             </thead>
@@ -99,11 +100,9 @@ export default function GroupDetails() {
               {students?.map((st, index) => (
                 <tr className="active-row" key={index}>
                   <td>{index + 1}</td>
-                  <td>{st.userId}</td>
-                  <td>{st.groupId}</td>
-                  <td>
-                    {st.isTeacher ? "Có giảng viên" : "Không có giảng viên"}
-                  </td>
+                  <td>{st.studentCode}</td>
+                  <td>{st.fullName}</td>
+                  <td>{st.email}</td>
                   <td>
                     <Link
                       className="deleteUser"

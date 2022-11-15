@@ -12,13 +12,10 @@ class Axios {
       })
       .then((result) => result)
       .catch((error) => error.response);
-      console.log("resp>",response)
-
     return response;
   }
 
   static async postLogin(url, data, headers) {
-    console.log('login',data)
     const response = await axios
       .post(url, data, {
         headers: {
@@ -28,14 +25,12 @@ class Axios {
       })
       .then((result) => result)
       .catch((error) => error.response);
-      console.log("resp123->",response)
-
     return response;
   }
 
   static async postFile(url, data, headers) {
     const response = await axios
-      .post(`${Config.URL}${url}`,data ,{
+      .post(`${Config.URL}${url}`, data, {
         headers: {
           ...headers,
           ...Config.HEADERS,
@@ -44,13 +39,11 @@ class Axios {
       })
       .catch((e) => {
         throw Error(e.response.data.message);
-      }); 
-      console.log("resp->",response)
+      });
     return response.data;
   }
 
   static async get(url, headers) {
-    console.log('index')
     const response = await axios
       .get(`${Config.URL}${url}`, {
         data: null,
@@ -61,7 +54,6 @@ class Axios {
       })
       .then((result) => result)
       .catch((error) => error.response);
-      console.log('index',response.data)
     return response.data;
   }
 
@@ -75,7 +67,6 @@ class Axios {
       })
       .then((result) => result)
       .catch((error) => error.response);
-
     return response.data;
   }
 
@@ -89,7 +80,6 @@ class Axios {
       })
       .then((result) => result)
       .catch((error) => error.response);
-
     return response;
   }
 }
