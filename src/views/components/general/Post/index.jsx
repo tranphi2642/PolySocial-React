@@ -109,21 +109,27 @@ export default function Post() {
                   Like
                 </button>
                 <span className="custom-action">
-                  <i>
-                    <UilHeart />
-                  </i>
+                  <button type="button">
+                    <i>
+                      <UilHeart />
+                    </i>
+                  </button>
                   <span className="h5">{item.countLike}</span>
                 </span>
                 <span className="custom-action">
-                  <i>
-                    <UilCommentDots />
-                  </i>
+                  <button type="button">
+                    <i>
+                      <UilCommentDots />
+                    </i>
+                  </button>
                   <span className="h5">{item.countComment}</span>
                 </span>
                 <span className="custom-action">
-                  <i className="uil uil-share-alt">
-                    <UilShareAlt />
-                  </i>
+                  <button type="button">
+                    <i className="uil uil-share-alt">
+                      <UilShareAlt />
+                    </i>
+                  </button>
                 </span>
               </div>
               <div className="bookmark">

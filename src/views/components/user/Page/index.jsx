@@ -26,6 +26,9 @@ export default function Page() {
   const getAllData = async () => {
     const response = await Asios.Groups.get_all_groups();
     setGroup(response.content);
+    response.content.map((item) => {
+      console.log(item);
+    });
   };
 
   return (
@@ -118,15 +121,21 @@ export default function Page() {
                 <div className="action-buttons">
                   <div className="interaction-buttons">
                     <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
+                      <button type="button">
+                        <i>
+                          <UilHeart />
+                        </i>
+                      </button>
+                      <button type="button">
+                        <i>
+                          <UilCommentDots />
+                        </i>
+                      </button>
+                      <button type="button">
+                        <i className="uil uil-share-alt">
+                          <UilShareAlt />
+                        </i>
+                      </button>
                     </span>
                   </div>
                   <div className="bookmark">
