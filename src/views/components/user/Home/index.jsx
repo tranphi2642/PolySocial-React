@@ -33,6 +33,9 @@ export default function Home() {
   if (!account) {
     return <Navigate to="/login" replace={true} />;
   }
+
+  
+
   return (
     <React.Fragment>
       <Nav />
@@ -160,19 +163,16 @@ export default function Home() {
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
                 onClick={() => setShowCreatePost(true)}
               />
-              <input
-                type="submit"
+              {/* <input
+                type="button"
                 value="Đăng bài"
                 className="btn btn-primary"
-              />
+              /> */}
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
-              <Post />
-              <Post />
               <Post />
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
