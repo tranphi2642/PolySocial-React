@@ -8,10 +8,6 @@ import {
   UilFeedback,
   UilFileUpload,
   UilSignout,
-  UilHeart,
-  UilCommentDots,
-  UilShareAlt,
-  UilBookmarkFull,
   UilEllipsisH,
   UilLock,
   UilUserCheck,
@@ -20,7 +16,6 @@ import {
 import Nav from "../../general/Nav/index";
 
 import avatar from "../../../../assets/images/1.jpg";
-import post from "../../../../assets/images/post.jpg";
 
 export default function PageDetail() {
   const [group, setGroup] = useState([]);

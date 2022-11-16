@@ -2,10 +2,8 @@ import React from "react";
 import Asios from "./../../../../api/index";
 
 export default function AddFriend(props) {
-  console.log("=>>>>>>>>>>>", props);
   const handleAddFriend = async () => {
-    const response = await Asios.Friends.addFriend(props);
-    console.log(response);
+    await Asios.Friends.addFriend(props);
   };
 
   return (
