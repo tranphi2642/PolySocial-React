@@ -9,10 +9,21 @@ import "./index.scss";
 
 export default function Page() {
   const [groups, setGroup] = useState([]);
+  const [listPosts, setListPost] = useState([]);
 
   useEffect(() => {
     getAllData();
+    fetchPostList();
   }, []);
+
+  const fetchPostList = async () => {
+    try {
+      const response = await Asios.Posts.getAllByAllPost();
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
 
   const getAllData = async () => {
     const response = await Asios.Groups.get_all_groups();
@@ -83,7 +94,9 @@ export default function Page() {
           <div className="middle">
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
+              {listPosts.map((post, index) => (
+                <Post {...post} key={index} />
+              ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
