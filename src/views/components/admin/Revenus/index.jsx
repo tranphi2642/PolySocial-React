@@ -1,11 +1,13 @@
 import React from "react";
 import NavAdmin from "../../general/NavAdmin/index";
+import useLogin from "../../../utils/useLogin/useLogin";
 
-import avatar from "../../../../assets/images/1.jpg";
 import "./index.scss";
 import LineChart from "./LineChart";
 
 export default function Revenus() {
+  const { account } = useLogin();
+
   return (
     <React.Fragment>
       <NavAdmin />
@@ -14,8 +16,8 @@ export default function Revenus() {
           <i className="uil uil-bars sidebar-toggle"></i>
 
           <div className="info">
-            <span>Trần Phi</span>
-            <img src={avatar} alt="" />
+            <span>{account.fullName}</span>
+            <img src={account.avatar} alt="" />
           </div>
         </div>
 
