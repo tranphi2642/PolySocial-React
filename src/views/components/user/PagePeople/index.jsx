@@ -28,9 +28,9 @@ export default function PagePeople() {
   }, []);
 
   const getAllData = async () => {
-    const responseGroup = await Asios.Groups.get_one_group(id);
-    const response = await Asios.Groups.get_all_student_group(id);
-    const responseTeacher = await Asios.Groups.get_teacher_group(id);
+    const responseGroup = await Asios.Groups.getOneGroup(id);
+    const response = await Asios.Groups.getAllStudentGroup(id);
+    const responseTeacher = await Asios.Groups.getTeacherGroup(id);
     setGroup(responseGroup);
     setMember(response);
     setTeacher(responseTeacher);

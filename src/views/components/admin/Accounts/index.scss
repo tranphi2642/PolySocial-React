@@ -273,6 +273,26 @@
   color: #f1550e;
 }
 
+.dash-content .pages-buttom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.dash-content .pages-buttom button {
+  width: 70px;
+  height: 40px;
+  background: var(--orange-color);
+  color: var(--title-icon-color);
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
 /* create group */
 .modal-create-group {
   background: rgba(255, 255, 255, 0.5);

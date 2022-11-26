@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import Axios from "../../../../api/index";
 
 const GroupModal = (props) => {
   const [selectedFile, setSelectedFile] = useState();
@@ -26,7 +25,6 @@ const GroupModal = (props) => {
         },
       }
     );
-    // const response = await Axios.Groups.create_group_by_excel(formData);
     console.log(response);
     if (response) {
       alert("Create group successfully!");

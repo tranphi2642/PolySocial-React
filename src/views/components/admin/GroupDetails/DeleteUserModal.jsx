@@ -7,7 +7,7 @@ const EditContentModal = (props) => {
   const { id } = useParams();
 
   const deleteUser = async () => {
-    const response = await Axios.Groups.delete_student_group(
+    const response = await Axios.Groups.deleteStudentGroup(
       props.userId.current,
       id
     );

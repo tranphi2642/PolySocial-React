@@ -31,7 +31,7 @@ export default function GroupDetails() {
   };
 
   const getAllData = async () => {
-    const response = await Asios.Groups.get_all_student_group(id);
+    const response = await Asios.Groups.getAllStudentGroup(id);
     console.log(response);
     setStudent(response);
   };

@@ -26,7 +26,7 @@ export default function Page() {
   };
 
   const getAllData = async () => {
-    const response = await Asios.Groups.get_all_groups();
+    const response = await Asios.Groups.getAllGroups();
     setGroup(response.content);
   };
 
