@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Asios from "../../../../api/index";
 
 const EditGroupModal = (props) => {
+  const [post, setPost] = useState({
+    content: "",
+    file: "",
+  });
+  const [file, setFile] = useState("");
+
+  useEffect(() => {
+    getOneData();
+  }, [props.postId.current]);
+
+  const getOneData = async () => {
+    // const response = await Asios.Content.getOnePost(props.postId.current);
+    // if (response) {
+    //   setPost(response);
+    // }
+  };
+
+  const imageUpload = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   if (!props.showEdit) {
     return null;
   }
@@ -12,40 +34,26 @@ const EditGroupModal = (props) => {
           <h3>Chỉnh sửa hoặc xoá bài viết</h3>
 
           <div className="form-input">
-            <label htmlFor="postId">Mã bài viết</label>
-            <input type="text" id="postId" />
-          </div>
-
-          <div className="form-input">
             <label htmlFor="content">Nội dung</label>
             <input
               type="text"
               id="content"
               placeholder="Hãy nhập nội dung bài đăng"
+              value={post.content}
+              onChange={(e) => setPost({ ...post, content: e.target.value })}
             />
           </div>
 
           <div className="form-input">
-            <label htmlFor="createdDate">Ngày tạo</label>
+            <label htmlFor="upload">Tải ảnh</label>
             <input
-              type="date"
-              id="createdDate"
-              placeholder="Hãy nhập ngày tạo"
+              onChange={imageUpload}
+              type="file"
+              id="upload"
+              accept="image/jpeg, image/png, image/jpg"
+              multiple="multiple"
+              placeholder="Hãy chọn ảnh của bạn."
             />
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="status">Trạng thái</label>
-            <div className="status">
-              <div>
-                <input type="radio" id="status-true" defaultValue={true} />
-                <span className="checkmark">Hiển thị</span>
-              </div>
-              <div>
-                <input type="radio" id="status-false" defaultValue={false} />
-                <span className="checkmark">Không hiển thị</span>
-              </div>
-            </div>
           </div>
 
           <div className="buttons-update">

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Asios from "./../../../../api/index";
 import ContentModal from "./CreateContentModal";
 import EditContentModal from "./EditContentModal";
 import { Link } from "react-router-dom";
@@ -16,6 +17,22 @@ export default function Contents() {
   const { account } = useLogin();
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [posts, setPost] = useState([]);
+  const postId = useRef(0);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Content.getAllByAllPost();
+    setPost(response.listPostDTO);
+  };
+
+  const handleShowEdit = (id) => {
+    postId.current = id;
+    setShowEdit(true);
+  };
 
   return (
     <React.Fragment>
@@ -74,156 +91,34 @@ export default function Contents() {
                 <th>Người tạo</th>
                 <th>Nội dung</th>
                 <th>Nhóm</th>
-                <th>Trạng thái</th>
+                <th>Số lượt bình luận</th>
+                <th>Số lượt yêu thích</th>
                 <th>Ngày tạo</th>
                 <th></th>
               </tr>
             </thead>
             <tbody className="body">
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Trần Mậu Phi</td>
-                <td>FPT Polytechnic</td>
-                <td>2</td>
-                <td>Hiển thị</td>
-                <td>2022/10/26</td>
-                <td>
-                  <Link
-                    className="updateContent"
-                    onClick={() => setShowEdit(true)}
-                  >
-                    <i>
-                      <UilEdit />
-                    </i>
-                  </Link>
-                </td>
-              </tr>
+              {posts.map((post, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{post.user.fullName}</td>
+                  <td>{post.content}</td>
+                  <td>{post.groupId}</td>
+                  <td>{post.countComment}</td>
+                  <td>{post.countLike}</td>
+                  <td>{post.createdDate}</td>
+                  <td>
+                    <Link
+                      className="updateContent"
+                      onClick={() => handleShowEdit(post.postId)}
+                    >
+                      <i>
+                        <UilEdit />
+                      </i>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -232,6 +127,7 @@ export default function Contents() {
       <EditContentModal
         onClose={() => setShowEdit(false)}
         showEdit={showEdit}
+        postId={postId}
       />
     </React.Fragment>
   );

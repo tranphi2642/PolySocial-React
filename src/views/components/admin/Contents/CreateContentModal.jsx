@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import Asios from "./../../../../api/index";
 
 const ContentModal = (props) => {
+  const [itemInputPost, setItemInputPost] = useState({
+    content: "",
+  });
+  const [file, setFile] = useState("");
+
+  const imageUpload = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSummit = async (e) => {
+    props.onClose();
+    const formData = new FormData();
+    formData.append("file", file);
+    // await Asios.Posts.upLoadFile(formData);
+    // const responseCreate = await Asios.Posts.createPost(itemInputPost);
+
+    // if (responseCreate.status === 200) {
+    //   window.location.reload();
+    // } else {
+    //   alert("FALSE POST");
+    // }
+  };
+
   if (!props.show) {
     return null;
   }
@@ -8,26 +32,18 @@ const ContentModal = (props) => {
   return (
     <div className="modal-create-content" onClick={props.onClose}>
       <div className="cart-create" onClick={(e) => e.stopPropagation()}>
-        <form className="form-create">
+        <form onSubmit={handleSummit} className="form-create">
           <h3>Tạo bài viết</h3>
-
-          <div className="form-input">
-            <label htmlFor="groupId">Mã nhóm</label>
-            <input type="text" id="groupId" placeholder="Hãy nhập mã nhóm" />
-          </div>
-
-          <div className="form-input">
-            <label htmlFor="userId">Mã người tạo</label>
-            <input
-              type="text"
-              id="userId"
-              placeholder="Hãy nhập mã người tạo"
-            />
-          </div>
 
           <div className="form-input">
             <label htmlFor="content">Nội dung</label>
             <input
+              onChange={(event) =>
+                setItemInputPost({
+                  ...itemInputPost,
+                  content: event.target.value,
+                })
+              }
               type="text"
               id="content"
               placeholder="Hãy nhập nội dung bài đăng"
@@ -35,27 +51,17 @@ const ContentModal = (props) => {
           </div>
 
           <div className="form-input">
-            <label htmlFor="createdDate">Ngày tạo</label>
+            <label htmlFor="upload">Tải ảnh</label>
             <input
-              type="datetime-local"
-              id="createdDate"
-              placeholder="Hãy nhập ngày tạo"
+              onChange={imageUpload}
+              type="file"
+              id="upload"
+              accept="image/jpeg, image/png, image/jpg"
+              multiple="multiple"
+              placeholder="Hãy chọn ảnh của bạn."
             />
           </div>
 
-          <div className="form-input">
-            <label htmlFor="status">Trạng thái</label>
-            <div className="status">
-              <div>
-                <input type="radio" id="status-true" defaultValue={true} />
-                <span className="checkmark">Hiển thị</span>
-              </div>
-              <div>
-                <input type="radio" id="status-false" defaultValue={false} />
-                <span className="checkmark">Không hiển thị</span>
-              </div>
-            </div>
-          </div>
           <button>
             <i className="uil uil-plus"></i> Tạo
           </button>
