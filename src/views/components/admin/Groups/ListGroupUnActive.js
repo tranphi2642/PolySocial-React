@@ -15,7 +15,6 @@ const ListGroupUnActive = () => {
 
   const getAllData = async () => {
     const response = await Asios.Groups.getAllGroupsFalse();
-    console.log(response);
     setGroup(response.content);
   };
 

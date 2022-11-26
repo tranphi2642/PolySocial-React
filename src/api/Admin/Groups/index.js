@@ -46,7 +46,7 @@ class Groups {
     Axios.get(`/group/api/get/all-student?groupId=${groupId}`);
 
   //API get one student of group
-  static get_one_student_group = async (email, groupId) =>
+  static getOneStudent = async (email, groupId) =>
     Axios.get(`/group/api/get-student?email=${email}&groupId=${groupId}`);
 
   //API create student in group
@@ -60,15 +60,15 @@ class Groups {
     );
 
   //API get all group by student
-  static get_all_group_student = async (userId) =>
-    Axios.get(`/group/api/get-all/group/student?userId=${userId}`);
+  static getAllGroupStudent = async () =>
+    Axios.get(`/group/api/get-all/student`);
 
   //API get all group by teacher
-  static get_all_group_teacher = async ({ userId }) =>
-    Axios.get(`/group/api/get-all/group/teacher?userId=${userId}`);
+  static getAllGroupTeacher = async () =>
+    Axios.get(`/group/api/get-all/group/teacher`);
 
   //API find group by keywork
-  static find_group = async (keyword) =>
+  static findGroup = async (keyword) =>
     Axios.get(`/group/api/find-group?keywork=${keyword}`);
 }
 

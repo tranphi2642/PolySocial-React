@@ -26,9 +26,11 @@ export default function Page() {
   };
 
   const getAllData = async () => {
-    const response = await Asios.Groups.getAllGroups();
-    setGroup(response.content);
+    const response = await Asios.Groups.getAllGroupStudent();
+    setGroup(response);
   };
+
+  console.log(groups);
 
   return (
     <React.Fragment>
@@ -81,7 +83,7 @@ export default function Page() {
                       />
                     </div>
                     <div className="handle">
-                      <h4>{group.name}</h4>
+                      <h4>{group.groupName}</h4>
                       <p className="text-muted">
                         Lần hoạt động gần nhất: 1 tháng trước
                       </p>

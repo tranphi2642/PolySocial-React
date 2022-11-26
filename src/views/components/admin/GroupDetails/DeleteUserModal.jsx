@@ -36,11 +36,9 @@ const EditContentModal = (props) => {
             <button onClick={() => deleteUser()}>
               <i className="uil uil-trash"></i> Xoá
             </button>
-            <form>
-              <button onClick={props.onClose}>
-                <i className="uil uil-times"></i>Huỷ
-              </button>
-            </form>
+            <button onClick={() => window.location.reload()}>
+              <i className="uil uil-times"></i>Huỷ
+            </button>
           </div>
         </div>
       </div>

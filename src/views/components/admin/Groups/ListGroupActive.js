@@ -15,7 +15,6 @@ const ListGroupActive = () => {
 
   const getAllData = async () => {
     const response = await Asios.Groups.getAllGroups();
-    console.log(response);
     setGroup(response.content);
   };
 
