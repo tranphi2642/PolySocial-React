@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState,useEffect } from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 import {
   UilHeart,
@@ -12,9 +12,10 @@ import CommentPost from "../CommentPost";
 import LikePost from "../LikePost";
 import Axios from "./../../../../api/index";
 
+
 export default function Post(props) {
   const { account } = useLogin();
-
+  const socket = props.socket;
   const [itemInputComment, setItemInputComment] = useState({
     postId: "",
     content: "",
@@ -27,9 +28,10 @@ export default function Post(props) {
     };
     const response = await Axios.Comments.createComment(data);
     if (response) {
-      window.location.reload();
+      socket.emit("Client-request-comment");
     }
   };
+  
 
   const likeUnLike = async (e, postId) => {
     const data = {
@@ -37,7 +39,7 @@ export default function Post(props) {
     };
     const response = await Axios.Likes.likeUnLike(data);
     if (response) {
-      window.location.reload();
+      socket.emit("Client-request-like");
     }
   };
 

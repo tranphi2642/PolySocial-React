@@ -73,6 +73,7 @@ export default function Page() {
                 {groups.map((group, index) => (
                   <Link
                     to={`/pageDetail/${group.groupId}`}
+                    state={{ from: group }}
                     className="page"
                     key={index}
                   >
