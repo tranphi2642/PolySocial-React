@@ -1,4 +1,5 @@
 import React from "react";
+import ChatSmall from "../../general/ChatSmall";
 
 export default function HomeChat(props) {
   const socket = props.socket;
@@ -14,18 +15,7 @@ export default function HomeChat(props) {
         <input type="search" id="search-bar" placeholder="Tìm kiếm tin nhắn" />
       </div>
       {/* <!------------------------------- Messages ----------------------------> */}
-      <div className="all-messages">
-        <div className="message">
-          <div className="profile-photo">
-            {/* <img src={account.avatar} alt="" /> */}
-          </div>
-
-          <div className="message-body">
-            {/* <h5>{account.fullName}</h5> */}
-            <p className="text-muted">Xin chào</p>
-          </div>
-        </div>
-      </div>{" "}
+      <ChatSmall />
     </React.Fragment>
   );
 }
