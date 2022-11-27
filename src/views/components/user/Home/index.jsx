@@ -23,7 +23,10 @@ import {
 import "./index.scss";
 import AddFriend from "../../general/ConfirmFriend";
 import HomeChat from "../../general/HomeChat";
+import { io } from "socket.io-client";
 
+const CONNECTTION_PORT = "localhost:3002";
+let socket;
 export default function Home() {
   const { account } = useLogin();
   const [show, setShow] = useState(false);
@@ -37,6 +40,15 @@ export default function Home() {
     getRequestFriend();
     fetchPostList();
   }, []);
+  useEffect(() => {
+    socket = io(CONNECTTION_PORT);
+  });
+
+  useEffect(() => {
+    socket.on("Server-response-like-comment", function () {
+      fetchPostList();
+    });
+  });
 
   const getRequestFriend = async () => {
     const response = await Asios.Friends.getAllRequestAddFriend();
@@ -194,7 +206,7 @@ export default function Home() {
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
               {listPosts.map((post, index) => (
-                <Post {...post} key={index} />
+                <Post {...post} key={index} socket={socket} />
               ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
@@ -204,7 +216,7 @@ export default function Home() {
           {/* <!------------------------------- Right ----------------------------> */}
           <div className="right">
             <div className="messages">
-              <HomeChat />
+              <HomeChat socket={socket} />
             </div>
             {/* <!------------------------------- End Messages ----------------------------> */}
 

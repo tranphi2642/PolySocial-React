@@ -1,7 +1,8 @@
 import React from "react";
-import ChatSmall from "../../general/ChatSmall";
 
-export default function HomeChat() {
+export default function HomeChat(props) {
+  const socket = props.socket;
+
   return (
     <React.Fragment>
       <div className="heading">
@@ -14,15 +15,16 @@ export default function HomeChat() {
       </div>
       {/* <!------------------------------- Messages ----------------------------> */}
       <div className="all-messages">
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
+        <div className="message">
+          <div className="profile-photo">
+            {/* <img src={account.avatar} alt="" /> */}
+          </div>
+
+          <div className="message-body">
+            {/* <h5>{account.fullName}</h5> */}
+            <p className="text-muted">Xin chào</p>
+          </div>
+        </div>
       </div>{" "}
     </React.Fragment>
   );
