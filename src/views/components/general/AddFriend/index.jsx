@@ -3,7 +3,12 @@ import Asios from "./../../../../api/index";
 
 export default function AddFriend(props) {
   const handleAddFriend = async () => {
-    await Asios.Friends.addFriend(props);
+    const response = await Asios.Friends.addFriend(props);
+    // if (response.status === 200) {
+    //   alert("Add Friend Success");
+    // } else {
+    //   alert("Add Fiend Fail");
+    // }
   };
 
   return (
