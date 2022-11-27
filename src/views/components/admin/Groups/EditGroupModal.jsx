@@ -23,12 +23,11 @@ const EditContentModal = (props) => {
   };
 
   const updateGroup = async () => {
-    debugger;
     const response = await Axios.Groups.updateGroup(group);
-    if (response.status === 200) {
+    if (response) {
       alert("Update group successfully!");
       props.onClose();
-      getOneData();
+      window.location.reload();
     } else {
       alert("Update group failed!");
     }

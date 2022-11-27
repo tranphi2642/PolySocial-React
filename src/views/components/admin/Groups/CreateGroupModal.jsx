@@ -1,9 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
+import Asios from "./../../../../api/index";
 
 const GroupModal = (props) => {
   const [selectedFile, setSelectedFile] = useState();
   const [isSelected, setIsSelected] = useState(false);
+  const [groupId, setGroupId] = useState("");
 
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -14,25 +15,19 @@ const GroupModal = (props) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", selectedFile);
-    const response = await axios.post(
-      "http://localhost:8080/group/api/create-file",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization:
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjY4NDM5NjczLCJleHAiOjE2NjkwNDQ0NzN9.0GCQPuGQWTzHnf6TfxeINV5bZfNVnW0N_N3npQKUUyxI1vpzeNZ0NW3lUgwURk3A13Ahz1V8iFimjuQ5pizVag",
-        },
-      }
-    );
+    const response = await Asios.Groups.createGroupExcel(formData, groupId);
     console.log(response);
     if (response) {
       alert("Create group successfully!");
       props.onClose();
-      window.location.reload();
+      // window.location.reload();
     } else {
       alert("Create group failed!");
     }
+  };
+
+  const handleChange = (e) => {
+    setGroupId(e.target.value);
   };
 
   if (!props.show) {
@@ -44,6 +39,23 @@ const GroupModal = (props) => {
       <div className="cart-create" onClick={(e) => e.stopPropagation()}>
         <form className="form-create" onSubmit={createGroupByExcel}>
           <h3>Tạo nhóm học tập</h3>
+
+          <div className="form-input">
+            <label htmlFor="groupId">Mã nhóm học tập</label>
+            <div className="select-box">
+              <select className="select" onChange={handleChange}>
+                <option defaultValue="" defaultChecked>
+                  Chọn mã nhóm học tập
+                </option>
+                {props.groups.map((group) => (
+                  <option key={group.groupId} value={group.groupId}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="form-input">
             <label htmlFor="upload">Tải tệp excel</label>
             <input

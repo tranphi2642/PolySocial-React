@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GroupModal from "./CreateGroupModal";
 import { Link } from "react-router-dom";
 import NavAdmin from "../../general/NavAdmin/index";
 import useLogin from "../../../utils/useLogin/useLogin";
+import Asios from "./../../../../api/index";
 import {
   UilBars,
   UilPlus,
@@ -13,9 +14,19 @@ import ListGroupActive from "./ListGroupActive";
 import ListGroupUNActive from "./ListGroupUnActive";
 
 export default function Groups() {
+  const [groups, setGroup] = useState([]);
   const [activeTab, setActiveTab] = useState("tab1");
   const { account } = useLogin();
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getAllGroups();
+    setGroup(response.content);
+  };
 
   const handleTab1 = () => {
     setActiveTab("tab1");
@@ -95,7 +106,7 @@ export default function Groups() {
           </div>
         </div>
       </section>
-      <GroupModal onClose={() => setShow(false)} show={show} />
+      <GroupModal onClose={() => setShow(false)} show={show} groups={groups} />
     </React.Fragment>
   );
 }

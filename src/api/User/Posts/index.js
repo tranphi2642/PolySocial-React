@@ -4,9 +4,7 @@ class Posts {
   //API get all groups
   static getAllByAllPost = async () => Axios.get("/api/posts");
 
-  static createPost = async (data) => Axios.post("/api/posts", data);
-
-  static upLoadFile = async (data) => Axios.postFile("/api/posts/upload", data);
+  static createPost = async (data) => Axios.postFile("/api/posts", data);
 }
 
 export default Posts;

@@ -18,16 +18,8 @@ class Groups {
     Axios.post("/group/api/create-group", data);
 
   //API create new group by excel
-  static createGroupExcel = async (file) =>
-    Axios.post(
-      "/group/api/create-file",
-      { data: file },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+  static createGroupExcel = async (data, groupId) =>
+    Axios.postFile(`/group/api/create-file?groupId=${groupId}`, data);
 
   //API update group
   static updateGroup = async (data) =>

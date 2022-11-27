@@ -4,25 +4,27 @@ import Asios from "./../../../../api/index";
 const ContentModal = (props) => {
   const [itemInputPost, setItemInputPost] = useState({
     content: "",
+    groupId: "",
+    files: [],
   });
-  const [file, setFile] = useState("");
 
   const imageUpload = (e) => {
-    setFile(e.target.files[0]);
+    for (var i = 0; i < e.target.files.length; i++) {
+      itemInputPost.files.push(e.target.files[i]);
+    }
   };
 
-  const handleSummit = async (e) => {
+  const handleSummit = async () => {
     props.onClose();
     const formData = new FormData();
-    formData.append("file", file);
-    // await Asios.Posts.upLoadFile(formData);
-    // const responseCreate = await Asios.Posts.createPost(itemInputPost);
-
-    // if (responseCreate.status === 200) {
-    //   window.location.reload();
-    // } else {
-    //   alert("FALSE POST");
-    // }
+    formData.append("file", itemInputPost.files);
+    const responseCreate = await Asios.Posts.createPost(itemInputPost);
+    if (responseCreate) {
+      window.location.reload();
+      alert("Create Post Success");
+    } else {
+      alert("Create Post Fail");
+    }
   };
 
   if (!props.show) {
@@ -34,6 +36,21 @@ const ContentModal = (props) => {
       <div className="cart-create" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSummit} className="form-create">
           <h3>Tạo bài viết</h3>
+
+          <div className="form-input">
+            <label htmlFor="groupId">Mã nhóm học tập</label>
+            <input
+              onChange={(event) =>
+                setItemInputPost({
+                  ...itemInputPost,
+                  groupId: event.target.value,
+                })
+              }
+              type="text"
+              id="groupId"
+              placeholder="Hãy nhập mã nhóm học tập"
+            />
+          </div>
 
           <div className="form-input">
             <label htmlFor="content">Nội dung</label>
