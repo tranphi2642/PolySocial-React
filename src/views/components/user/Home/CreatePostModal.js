@@ -7,30 +7,32 @@ const CreatePostModal = (props) => {
   const { account } = useLogin();
   const [itemInputPost, setItemInputPost] = useState({
     content: "",
+    groupId: null,
+    files: [],
   });
-  const [file, setFile] = useState("");
+
+  const imageUpload = (e) => {
+    for (var i = 0; i < e.target.files.length; i++) {
+      itemInputPost.files.push(e.target.files[i]);
+    }
+  };
+
+  const handleSummit = async () => {
+    props.onClose();
+    const formData = new FormData();
+    formData.append("file", itemInputPost.files);
+    const responseCreate = await Asios.Posts.createPost(itemInputPost);
+    if (responseCreate) {
+      window.location.reload();
+      alert("Create Post Success");
+    } else {
+      alert("Create Post Fail");
+    }
+  };
 
   if (!props.showCreatePost) {
     return null;
   }
-
-  const imageUpload = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleSummit = async (e) => {
-    props.onClose();
-    const formData = new FormData();
-    formData.append("file", file);
-    await Asios.Posts.upLoadFile(formData);
-    const responseCreate = await Asios.Posts.createPost(itemInputPost);
-
-    if (responseCreate.status === 200) {
-      window.location.reload();
-    } else {
-      alert("FALSE POST");
-    }
-  };
 
   return (
     <div className="modal-create-post" onClick={props.onClose}>
@@ -50,7 +52,6 @@ const CreatePostModal = (props) => {
           <div className="form-input">
             <label htmlFor="content">Nội dung</label>
             <textarea
-              // onChange={(e) => setUser({ ...user, userId: e.target.value })}
               onChange={(event) =>
                 setItemInputPost({
                   ...itemInputPost,

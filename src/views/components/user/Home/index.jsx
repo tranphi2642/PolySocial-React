@@ -23,7 +23,10 @@ import {
 import "./index.scss";
 import AddFriend from "../../general/ConfirmFriend";
 import HomeChat from "../../general/HomeChat";
+import { io } from "socket.io-client";
 
+const CONNECTTION_PORT = "localhost:3002";
+let socket;
 export default function Home() {
   const { account } = useLogin();
   const [show, setShow] = useState(false);
@@ -31,14 +34,39 @@ export default function Home() {
   const [showCustom, setShowCustom] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [showRequestFriend, setShowRequestFriend] = useState([]);
+  const [listPosts, setListPost] = useState([]);
 
   useEffect(() => {
     getRequestFriend();
+    fetchPostList();
   }, []);
+  useEffect(() => {
+    socket = io(CONNECTTION_PORT);
+  });
+
+  useEffect(() => {
+    socket.on("Server-response-like-comment", function () {
+      fetchPostList();
+    });
+  });
 
   const getRequestFriend = async () => {
     const response = await Asios.Friends.getAllRequestAddFriend();
     setShowRequestFriend(response);
+  };
+
+  const fetchPostList = async () => {
+    try {
+      const response = await Asios.Posts.getAllByAllPost();
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
+
+  const logout = () => {
+    sessionStorage.clear();
+    window.location.href = "/login";
   };
 
   if (!account) {
@@ -147,7 +175,7 @@ export default function Home() {
                 </span>
                 <h3>Quản lý</h3>
               </Link>
-              <Link to={"/"} className="menu-item">
+              <Link className="menu-item" onClick={logout}>
                 <span>
                   <i>
                     <UilSignout />
@@ -177,7 +205,9 @@ export default function Home() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
+              {listPosts.map((post, index) => (
+                <Post {...post} key={index} socket={socket} />
+              ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
@@ -186,15 +216,15 @@ export default function Home() {
           {/* <!------------------------------- Right ----------------------------> */}
           <div className="right">
             <div className="messages">
-              <HomeChat />
+              <HomeChat socket={socket} />
             </div>
             {/* <!------------------------------- End Messages ----------------------------> */}
 
             {/* <!------------------------------- Friend Requests ----------------------------> */}
             <div className="friend-requests">
               <h4>Lời kết bạn</h4>
-              {showRequestFriend.map((item) => (
-                <AddFriend {...item} />
+              {showRequestFriend.map((addFriend, index) => (
+                <AddFriend {...addFriend} key={index} />
               ))}
             </div>
             {/* <!------------------------------- End Friend Request ----------------------------> */}

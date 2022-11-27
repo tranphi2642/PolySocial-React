@@ -11,7 +11,7 @@ const GroupModal = (props) => {
   });
 
   const createUser = async () => {
-    const response = await Axios.Groups.create_student_group(user);
+    const response = await Axios.Groups.createStudentGroup(user);
     if (response) {
       alert("Create student successfully!");
       props.onClose();

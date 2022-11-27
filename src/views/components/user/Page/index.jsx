@@ -9,15 +9,28 @@ import "./index.scss";
 
 export default function Page() {
   const [groups, setGroup] = useState([]);
+  const [listPosts, setListPost] = useState([]);
 
   useEffect(() => {
     getAllData();
+    fetchPostList();
   }, []);
 
-  const getAllData = async () => {
-    const response = await Asios.Groups.get_all_groups();
-    setGroup(response.content);
+  const fetchPostList = async () => {
+    try {
+      const response = await Asios.Posts.getAllByAllPost();
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
   };
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getAllGroupStudent();
+    setGroup(response);
+  };
+
+  console.log(groups);
 
   return (
     <React.Fragment>
@@ -60,6 +73,7 @@ export default function Page() {
                 {groups.map((group, index) => (
                   <Link
                     to={`/pageDetail/${group.groupId}`}
+                    state={{ from: group }}
                     className="page"
                     key={index}
                   >
@@ -70,7 +84,7 @@ export default function Page() {
                       />
                     </div>
                     <div className="handle">
-                      <h4>{group.name}</h4>
+                      <h4>{group.groupName}</h4>
                       <p className="text-muted">
                         Lần hoạt động gần nhất: 1 tháng trước
                       </p>
@@ -83,7 +97,9 @@ export default function Page() {
           <div className="middle">
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
+              {listPosts.map((post, index) => (
+                <Post {...post} key={index} />
+              ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>

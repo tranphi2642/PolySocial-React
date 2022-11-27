@@ -1,7 +1,9 @@
 import React from "react";
 import ChatSmall from "../../general/ChatSmall";
 
-export default function HomeChat() {
+export default function HomeChat(props) {
+  const socket = props.socket;
+
   return (
     <React.Fragment>
       <div className="heading">
@@ -13,17 +15,7 @@ export default function HomeChat() {
         <input type="search" id="search-bar" placeholder="Tìm kiếm tin nhắn" />
       </div>
       {/* <!------------------------------- Messages ----------------------------> */}
-      <div className="all-messages">
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-        <ChatSmall />
-      </div>{" "}
+      <ChatSmall />
     </React.Fragment>
   );
 }

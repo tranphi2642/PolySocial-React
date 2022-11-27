@@ -14,19 +14,45 @@ import {
   UilPlus,
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
+import { useLocation } from "react-router-dom";
 
 import avatar from "../../../../assets/images/1.jpg";
+import { io } from "socket.io-client";
+
+
+
+
+let socket;
+const CONNECTTION_PORT = "localhost:3002";
 
 export default function PageDetail() {
+const location = useLocation();
+const { from } = location.state;
+
   const [group, setGroup] = useState([]);
+  const [listPosts, setListPost] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     getAllData();
+    fetchPostList();
   }, []);
 
+  useEffect(() => {
+    socket = io(CONNECTTION_PORT);
+  });
+
+  const fetchPostList = async () => {
+    try {
+      const response = await Asios.Posts.getAllByAllPost();
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
+
   const getAllData = async () => {
-    const response = await Asios.Groups.get_one_group(id);
+    const response = await Asios.Groups.getOneGroup(id);
     setGroup(response);
   };
 
@@ -91,6 +117,18 @@ export default function PageDetail() {
                 </span>
                 <h3>Thành viên</h3>
               </Link>
+              <Link
+                to={`/messages`}
+                state={{ from: from }}
+                className="menu-item"
+              >
+                <span>
+                  <i>
+                    <UilUsersAlt />
+                  </i>
+                </span>
+                <h3>Nhắn tin</h3>
+              </Link>
               <Link to={"/feedback"} className="menu-item">
                 <span>
                   <i>
@@ -139,7 +177,9 @@ export default function PageDetail() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
+              {listPosts.map((post, index) => (
+                <Post {...post} key={index} />
+              ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>

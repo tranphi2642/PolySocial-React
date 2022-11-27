@@ -7,7 +7,7 @@ const EditContentModal = (props) => {
   const { id } = useParams();
 
   const deleteUser = async () => {
-    const response = await Axios.Groups.delete_student_group(
+    const response = await Axios.Groups.deleteStudentGroup(
       props.userId.current,
       id
     );
@@ -36,11 +36,9 @@ const EditContentModal = (props) => {
             <button onClick={() => deleteUser()}>
               <i className="uil uil-trash"></i> Xoá
             </button>
-            <form>
-              <button onClick={props.onClose}>
-                <i className="uil uil-times"></i>Huỷ
-              </button>
-            </form>
+            <button onClick={() => window.location.reload()}>
+              <i className="uil uil-times"></i>Huỷ
+            </button>
           </div>
         </div>
       </div>

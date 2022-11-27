@@ -17,22 +17,23 @@ import {
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
 
-import avatar from "../../../../assets/images/1.jpg";
-
 export default function PagePeople() {
   const [members, setMember] = useState([]);
   const [group, setGroup] = useState([]);
   const { id } = useParams();
+  const [teacher, setTeacher] = useState([]);
 
   useEffect(() => {
     getAllData();
   }, []);
 
   const getAllData = async () => {
-    const responseGroup = await Asios.Groups.get_one_group(id);
-    const response = await Asios.Groups.get_all_student_group(id);
+    const responseGroup = await Asios.Groups.getOneGroup(id);
+    const response = await Asios.Groups.getAllStudentGroup(id);
+    const responseTeacher = await Asios.Groups.getTeacherGroup(id);
     setGroup(responseGroup);
     setMember(response);
+    setTeacher(responseTeacher);
   };
 
   return (
@@ -138,10 +139,10 @@ export default function PagePeople() {
                 <h3>Quản trị viên</h3>
                 <div className="profile">
                   <div className="profile-photo-1">
-                    <img src={avatar} alt="" />
+                    <img src={teacher.avatar} alt="" />
                   </div>
                   <div className="handle">
-                    <h4>Trần Phi</h4>
+                    <h4>{teacher.fullName}</h4>
                     <p>
                       <i>
                         <UilStar />

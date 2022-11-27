@@ -23,8 +23,8 @@ const SearchFriend = (props) => {
       <div className="cart-search" onClick={(e) => e.stopPropagation()}>
         <div className="form-search">
           <h2>Tìm kiếm bạn</h2>
-          {showSearch.map((item) => (
-            <AddFriend {...item} />
+          {showSearch.map((item, index) => (
+            <AddFriend key={index} {...item} />
           ))}
         </div>
       </div>

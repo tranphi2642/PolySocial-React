@@ -1,14 +1,15 @@
 import React from "react";
 import NavAdmin from "../../general/NavAdmin/index";
+import useLogin from "../../../utils/useLogin/useLogin";
 import {
   UilBars,
   UilTachometerFastAlt,
   UilSearch,
 } from "@iconscout/react-unicons";
 
-import avatar from "../../../../assets/images/1.jpg";
-
 export default function Likes() {
+  const { account } = useLogin();
+
   return (
     <React.Fragment>
       <NavAdmin />
@@ -19,8 +20,8 @@ export default function Likes() {
           </i>
 
           <div className="info">
-            <span>Trần Phi</span>
-            <img src={avatar} alt="" />
+            <span>{account.fullName}</span>
+            <img src={account.avatar} alt="" />
           </div>
         </div>
 
