@@ -5,9 +5,10 @@ import Asios from "./../../../../api/index";
 
 const CreatePostModal = (props) => {
   const { account } = useLogin();
+  const socket = props.socket;
   const [itemInputPost, setItemInputPost] = useState({
     content: "",
-    groupId: null,
+    groupId: 1,
     files: [],
   });
 
@@ -23,8 +24,8 @@ const CreatePostModal = (props) => {
     formData.append("file", itemInputPost.files);
     const responseCreate = await Asios.Posts.createPost(itemInputPost);
     if (responseCreate) {
-      window.location.reload();
-      alert("Create Post Success");
+      socket.emit("Client-request-createPost");
+      // alert("Create Post Success");
     } else {
       alert("Create Post Fail");
     }

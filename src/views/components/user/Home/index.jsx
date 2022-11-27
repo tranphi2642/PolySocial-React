@@ -239,6 +239,7 @@ export default function Home() {
       <CreatePostModal
         onClose={() => setShowCreatePost(false)}
         showCreatePost={showCreatePost}
+        socket={socket}
       />
     </React.Fragment>
   );
