@@ -44,7 +44,7 @@ export default function PageDetail() {
 
   const fetchPostList = async () => {
     try {
-      const response = await Asios.Posts.getAllByAllPost();
+      const response = await Asios.Posts.getAllByAllPostGroup(id);
       setListPost(response.listPostDTO);
     } catch (error) {
       console.log("Failed to fetch post list: ", error);
