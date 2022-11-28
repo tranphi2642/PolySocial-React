@@ -22,7 +22,7 @@ import {
 
 import "./index.scss";
 import AddFriend from "../../general/ConfirmFriend";
-import HomeChat from "../../general/HomeChat";
+import ListFiend from "../../general/ListFriend";
 import { io } from "socket.io-client";
 
 const CONNECTTION_PORT = "localhost:3002";
@@ -216,7 +216,7 @@ export default function Home() {
           {/* <!------------------------------- Right ----------------------------> */}
           <div className="right">
             <div className="messages">
-              <HomeChat socket={socket} />
+              <ListFiend socket={socket} />
             </div>
             {/* <!------------------------------- End Messages ----------------------------> */}
 

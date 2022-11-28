@@ -25,7 +25,7 @@ const CreatePostModal = (props) => {
     const responseCreate = await Asios.Posts.createPost(itemInputPost);
     if (responseCreate) {
       socket.emit("Client-request-createPost");
-      // alert("Create Post Success");
+      itemInputPost.files = [];
     } else {
       alert("Create Post Fail");
     }

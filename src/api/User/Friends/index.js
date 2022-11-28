@@ -18,8 +18,7 @@ class Friends {
   static searchUserByEmail = async (email) =>
     Axios.get(`/user/search-by-email?email=${email}`);
   // Get all friend
-  static getAllFriend = async (userId) =>
-    Axios.get(`/user/get-all-friend?userId=${userId}`);
+  static getAllFriend = async () => Axios.get("/user/get-all-friend");
   // Get one friend
   static getOneFriend = async (userId, friendId) =>
     Axios.get(`/user/get-friend?userId=${userId}&friendId=${friendId}`);
