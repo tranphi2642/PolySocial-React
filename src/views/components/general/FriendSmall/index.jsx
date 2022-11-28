@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function ChatSmall(props) {
-  console.log(props);
-
   return (
     <div className="message">
       <div className="profile-photo">

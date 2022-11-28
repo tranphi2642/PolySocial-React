@@ -40,6 +40,7 @@ export default function Home() {
     getRequestFriend();
     fetchPostList();
   }, []);
+
   useEffect(() => {
     socket = io(CONNECTTION_PORT);
   });

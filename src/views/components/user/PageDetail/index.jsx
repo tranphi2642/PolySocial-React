@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Asios from "./../../../../api/index";
 import Post from "../../general/Post";
+import useLogin from "../../../utils/useLogin/useLogin";
+import CreatePostModal from "./CreatePostModal";
 import {
   UilHome,
   UilUsersAlt,
@@ -12,23 +14,21 @@ import {
   UilLock,
   UilUserCheck,
   UilPlus,
+  UilEnvelopeAlt,
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
 import { useLocation } from "react-router-dom";
 
-import avatar from "../../../../assets/images/1.jpg";
 import { io } from "socket.io-client";
-
-
-
 
 let socket;
 const CONNECTTION_PORT = "localhost:3002";
 
 export default function PageDetail() {
-const location = useLocation();
-const { from } = location.state;
-
+  const { account } = useLogin();
+  const location = useLocation();
+  const { from } = location.state;
+  const [showCreatePost, setShowCreatePost] = useState(false);
   const [group, setGroup] = useState([]);
   const [listPosts, setListPost] = useState([]);
   const { id } = useParams();
@@ -124,7 +124,7 @@ const { from } = location.state;
               >
                 <span>
                   <i>
-                    <UilUsersAlt />
+                    <UilEnvelopeAlt />
                   </i>
                 </span>
                 <h3>Nhắn tin</h3>
@@ -158,19 +158,14 @@ const { from } = location.state;
           <div className="middle">
             {/* <!------------------------------- Create post ----------------------------> */}
             <form className="create-post">
-              <div className="profile-photo">
-                <img src={avatar} alt="" />
+              <div className="profile-photo-post">
+                <img src={account.avatar} alt="" />
               </div>
               <input
                 type="text"
-                name="post"
                 id="create-post"
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
-              />
-              <input
-                type="submit"
-                value="Đăng bài"
-                className="btn btn-primary"
+                onClick={() => setShowCreatePost(true)}
               />
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
@@ -183,21 +178,13 @@ const { from } = location.state;
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
-          {/* <!------------------------------- End Middle ----------------------------> */}
-          {/* <div className="right">
-            <div className="about">
-                <h3>Giới thiệu</h3>
-                <span><i className="uil uil-lock"></i> Riêng tư</span>
-                <p>Chỉ thành viên mới nhìn thấy mọi người trong nhóm và những gì họ đăng.</p>
-
-                <span><i className="uil uil-eye"></i> Hiển thị</span>
-                <p>Ai cũng có thể tìm nhóm này.</p>
-
-                <button>Tìm hiểu thêm</button>
-            </div>
-        </div>  */}
         </div>
       </main>
+      <CreatePostModal
+        onClose={() => setShowCreatePost(false)}
+        showCreatePost={showCreatePost}
+        socket={socket}
+      />
     </React.Fragment>
   );
 }
