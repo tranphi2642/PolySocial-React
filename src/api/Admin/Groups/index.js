@@ -53,7 +53,7 @@ class Groups {
 
   //API get all group by student
   static getAllGroupStudent = async () =>
-    Axios.get(`/group/api/get-all/student`);
+    Axios.get(`/group/api/get-all/user`);
 
   //API get all group by teacher
   static getAllGroupTeacher = async () =>

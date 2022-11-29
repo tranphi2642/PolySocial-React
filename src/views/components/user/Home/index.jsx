@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 import { Link, Navigate } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
@@ -36,9 +36,18 @@ export default function Home() {
   const [showRequestFriend, setShowRequestFriend] = useState([]);
   const [listPosts, setListPost] = useState([]);
 
+  const listInnerRef = useRef();
+  const [currPage, setCurrPage] = useState(0);
+  const [prevPage, setPrevPage] = useState(0);
+  const [lastList, setLastList] = useState(false);
+  const [limit, setLimit] = useState(2);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   useEffect(() => {
     getRequestFriend();
-    fetchPostList();
   }, []);
 
   useEffect(() => {
@@ -46,28 +55,43 @@ export default function Home() {
   });
 
   useEffect(() => {
-    socket.on("Server-response-like-comment", function () {
-      fetchPostList();
+    socket.on("Server-response-like-comment", async function () {
+      const response = await Asios.Posts.getAllByAllPost(0, 100);
+      setListPost([...listPosts, ...response.listPostDTO]);
     });
-  });
+  },[]);
+
+  const fetchData = async () => {
+    const response = await Asios.Posts.getAllByAllPost(currPage, limit);
+    console.log("currPage----> " + currPage);
+    if (!response.listPostDTO.length) {
+      setLastList(true);
+      return;
+    }
+    setPrevPage(currPage);
+    setListPost([...listPosts, ...response.listPostDTO]);
+  };
+  if (!lastList && prevPage !== currPage) {
+    fetchData();
+  }
 
   const getRequestFriend = async () => {
     const response = await Asios.Friends.getAllRequestAddFriend();
     setShowRequestFriend(response);
   };
 
-  const fetchPostList = async () => {
-    try {
-      const response = await Asios.Posts.getAllByAllPost();
-      setListPost(response.listPostDTO);
-    } catch (error) {
-      console.log("Failed to fetch post list: ", error);
-    }
-  };
-
   const logout = () => {
     sessionStorage.clear();
     window.location.href = "/login";
+  };
+
+  const onScroll = () => {
+    if (listInnerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        setCurrPage(currPage + 1);
+      }
+    }
   };
 
   if (!account) {
@@ -209,6 +233,17 @@ export default function Home() {
               {listPosts.map((post, index) => (
                 <Post {...post} key={index} socket={socket} />
               ))}
+              <div>
+                <div
+                  onScroll={onScroll}
+                  ref={listInnerRef}
+                  style={{ height: "100vh", overflowY: "auto" }}
+                >
+                  {listPosts.map((post, index) => (
+                    <Post {...post} key={index} socket={socket} />
+                  ))}
+                </div>
+              </div>
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
