@@ -59,7 +59,7 @@ export default function Home() {
       const response = await Asios.Posts.getAllByAllPost(0, 100);
       setListPost([...listPosts, ...response.listPostDTO]);
     });
-  },[]);
+  }, []);
 
   const fetchData = async () => {
     const response = await Asios.Posts.getAllByAllPost(currPage, limit);
@@ -230,9 +230,6 @@ export default function Home() {
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              {listPosts.map((post, index) => (
-                <Post {...post} key={index} socket={socket} />
-              ))}
               <div>
                 <div
                   onScroll={onScroll}
