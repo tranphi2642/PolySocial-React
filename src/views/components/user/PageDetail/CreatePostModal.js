@@ -1,14 +1,16 @@
 import { React, useState } from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
+import { useParams } from "react-router-dom";
 
 import Asios from "./../../../../api/index";
 
 const CreatePostModal = (props) => {
+  const { id } = useParams();
   const { account } = useLogin();
   const socket = props.socket;
   const [itemInputPost, setItemInputPost] = useState({
     content: "",
-    groupId: 1,
+    groupId: id,
     files: [],
   });
 
@@ -26,6 +28,7 @@ const CreatePostModal = (props) => {
     if (responseCreate) {
       socket.emit("Client-request-createPost");
       itemInputPost.files = [];
+      window.location.reload();
     } else {
       alert("Create Post Fail");
     }
