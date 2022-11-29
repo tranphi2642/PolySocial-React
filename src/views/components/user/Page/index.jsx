@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Post from "../../general/Post";
 import { UilSearch, UilSignOutAlt } from "@iconscout/react-unicons";
@@ -11,17 +11,38 @@ export default function Page() {
   const [groups, setGroup] = useState([]);
   const [listPosts, setListPost] = useState([]);
 
+  const listInnerRef = useRef();
+  const [currPage, setCurrPage] = useState(0);
+  const [prevPage, setPrevPage] = useState(0);
+  const [lastList, setLastList] = useState(false);
+  const [limit, setLimit] = useState(2);
+
   useEffect(() => {
     getAllData();
-    fetchPostList();
+    fetchData();
   }, []);
 
-  const fetchPostList = async () => {
-    try {
-      const response = await Asios.Posts.getAllByAllPost();
-      setListPost(response.listPostDTO);
-    } catch (error) {
-      console.log("Failed to fetch post list: ", error);
+  const fetchData = async () => {
+    const response = await Asios.Posts.getAllByAllPost(currPage, limit);
+    console.log("currPage----> " + currPage);
+    if (!response.listPostDTO.length) {
+      setLastList(true);
+      return;
+    }
+    setPrevPage(currPage);
+    setListPost([...listPosts, ...response.listPostDTO]);
+  };
+
+
+  if (!lastList && prevPage !== currPage) {
+    fetchData();
+  }
+  const onScroll = () => {
+    if (listInnerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        setCurrPage(currPage + 1);
+      }
     }
   };
 
@@ -97,9 +118,17 @@ export default function Page() {
           <div className="middle">
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              {listPosts.map((post, index) => (
-                <Post {...post} key={index} />
-              ))}
+            <div>
+                <div
+                  onScroll={onScroll}
+                  ref={listInnerRef}
+                  style={{ height: "100vh", overflowY: "auto" }}
+                >
+                  {listPosts.map((post, index) => (
+                    <Post {...post} key={index}/>
+                  ))}
+                </div>
+              </div>
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
