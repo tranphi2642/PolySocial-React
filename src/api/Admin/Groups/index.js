@@ -62,6 +62,9 @@ class Groups {
   //API find group by keywork
   static findGroup = async (keyword) =>
     Axios.get(`/group/api/find-group?keywork=${keyword}`);
+
+    static getNameGroupDESC = async (data) =>
+    Axios.post("/api/getName", data);
 }
 
 export default Groups;
