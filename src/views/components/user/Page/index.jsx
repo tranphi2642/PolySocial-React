@@ -100,7 +100,7 @@ export default function Page() {
                   >
                     <div className="page-photo">
                       <img
-                        src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
+                        src={group.avatarGroup}
                         alt=""
                       />
                     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FriendSmall from "../FriendSmall";
 import Asios from "./../../../../api/index";
+import { Link } from "react-router-dom";
 
 export default function HomeChat(props) {
   const socket = props.socket;
@@ -16,6 +17,11 @@ export default function HomeChat(props) {
     setListFriend(response);
   };
 
+  // const handleChange = (e, id) => {
+  //   e.preventDefault();
+  //   console.log("id", id);
+  // };
+
   console.log(listFriends);
 
   return (
@@ -30,7 +36,9 @@ export default function HomeChat(props) {
       </div>
       {/* <!------------------------------- Messages ----------------------------> */}
       {listFriends.map((friend, index) => (
-        <FriendSmall key={index} friend={friend} socket={socket} />
+        <Link to={`/messages`} state={{ from: friend }} className="menu-item">
+            <FriendSmall key={index} friend={friend} socket={socket} />
+        </Link>
       ))}
     </React.Fragment>
   );
