@@ -32,23 +32,24 @@ export default function Messages() {
   const [avatar, setAvatar] = useState([]);
   const [avatarGroup, setAvatarGroup] = useState([]);
   const [status, setStatus] = useState([false]);
+  const [listcontactId, setListcontactId] = useState([]);
+
 
   const ref = useRef(null);
 
   // useEffect(()=>{
   //   socket = io(CONNECTTION_PORT);
   // })
-  useEffect(() => {
+
+    useEffect(() => {
     for (let index = 0; index < listContacts.length; index++) {
       const element = listContacts[index];
       if (element[1] === account.studentCode) {
         setcontactId(element[0]);
         break;
       } else {
-        // setUserName("");
-        // setAvatar("");
-        // console.log("runnnn", element.fullName);
-        // setUserName(element.fullName);
+        // arr.push(element[0]);
+        // setUserName(element[3].fullName);
         // setAvatar(element[2].avatar);
       }
     }
@@ -66,6 +67,19 @@ export default function Messages() {
       // console.log("--from 111", from);
       setRoom(from.roomId);
       getMessageUser(from.roomId);
+      setUserName(from.friendName)
+      setAvatar(from.friendAvatar)
+      setListContacts(from.listContact);
+      //
+
+      for (let index = 0; index < from.listContact.length; index++) {
+        const element = from.listContact[index];
+        if (element.studentCode === account.studentCode) {
+          setcontactId(element.contactId);
+          break;
+        } else {
+        }
+      }
 
       var listStudentCode = [];
       var objectStudentCode = {};
@@ -97,7 +111,7 @@ export default function Messages() {
   //
   useEffect(() => {
     socket.on("get_one_message", function () {
-      for (let index = 0; index < 3; index++) {
+      for (let index = 0; index < 4; index++) {
         getNameGroupDESC();
       }
     });
@@ -131,6 +145,9 @@ export default function Messages() {
     socket.emit("I stopped typing", room);
   };
 
+
+
+
   const getNameGroupDESC = async () => {
     const data = {
       userId: 1,
@@ -145,29 +162,49 @@ export default function Messages() {
       const names = element.name.split(",");
       const n = account.fullName;
       const getName = names.filter((name) => name !== n);
+      
+     try {
+      const Avatar = element.avatar.split(",");
+      const ns = account.avatar;
+      const getAvatar = Avatar.filter((name) => name !== ns);
+      
+      if(getAvatar[0]===account.avatar){
+          listNameGr.avatar = element.avatar
+      }else{
+        listNameGr.avatar = getAvatar[0];
+      }
+     } catch (error) {
+      
+     }
+
       listNameGr.roomId = element.roomId;
       listNameGr.lastMessage = element.lastMessage;
-      listNameGr.avatar = element.avatar;
+      
       listNameGr.totalMember = element.totalMember;
+      listNameGr.status = element.status;
       if (getName[0] === account.fullName) {
         listNameGr.name = element.name;
       } else {
+        
         listNameGr.name = getName[0];
       }
       listNameGr.listContacts = element.listContacts;
-
+      listNameGr.lastUpDateDate = element.lastUpDateDate
       arr.push(listNameGr);
     }
     console.log("arrr----", arr);
     setGroupList(arr);
     setStatus(true);
   };
+  
+  
 
   const createMessage = async () => {
     const data = {
       content: message,
       contactId: contactId,
       roomId: room,
+      listcontactId:listcontactId,  
     };
     const response = await Asios.Messages.createMessage(data);
     if (response) {
@@ -181,8 +218,9 @@ export default function Messages() {
   };
 
   const getMessageUser = async (roomId) => {
+  
     try {
-      console.log("roomId,,,,", roomId);
+      // console.log("roomId,,,,", roomId);
       socket.emit("join_room", roomId);
       const response = await Asios.Messages.getMessage(roomId);
       // console.log("rrrr", response);
@@ -194,6 +232,10 @@ export default function Messages() {
       console.log("Failed to fetch post list: ", error);
     }
   };
+  
+  // const updateViewedStatus=(data)=>{
+  //   console.log("data",data)
+  // }
 
   const getMessage = async (
     e,
@@ -214,6 +256,26 @@ export default function Messages() {
       setNameGroup(groupName);
       setotalMember(totalMember);
       setListContacts(group.listContacts);
+      const arr=[];
+      for (let index = 0; index < group.listContacts.length; index++) {
+        const element = group.listContacts[index];
+        if (element[1] === account.studentCode) {
+          const data = {
+            contactId: element[0],
+          };
+          const responseUpdateviewed=await Asios.Messages.updateviewedStatus(data);
+          if(responseUpdateviewed){
+            console.log("update trueeeee")
+            getNameGroupDESC();
+          }
+          // break;
+        } else {
+          arr.push(element[0]);
+        }
+      }
+      setListcontactId(arr);
+      console.log("listtttt",arr);
+
       try {
         setMessageList(response.data);
       } catch (error) {}
@@ -223,6 +285,8 @@ export default function Messages() {
     }
   };
 
+
+
   const sendMessgae = async () => {
     try {
       let messageContent = {
@@ -230,14 +294,19 @@ export default function Messages() {
         content: {
           studentCode: account.studentCode,
           content: message,
+          avatar:account.avatar,
+          fullName:account.fullName
         },
       };
       createMessage();
       await socket.emit("send_message", messageContent);
       setMessageList([...messageList, messageContent.content]);
       setMessage("");
+
     } catch (error) {}
   };
+
+
 
   return (
     <React.Fragment>
@@ -269,8 +338,10 @@ export default function Messages() {
                 >
                   <img src={group.avatar} alt="" />
                   <div className="userChatInfo">
+                    <p style={{color:"green"}}>{group.status?'đã xem':'Chưa xem'}</p>
                     <span>{group.name}</span>
                     <p>{group.lastMessage}</p>
+                    <p style={{color: "red"}}>{new Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit'}).format(new Date(group.lastUpDateDate))}</p>
                   </div>
                 </div>
               ))}
@@ -335,6 +406,7 @@ export default function Messages() {
                 onChange={(e) => {
                   setMessage(e.target.value);
                 }}
+                value={message}
                 placeholder="Hãy nhập tin nhắn ..."
               />
               <div className="send">
@@ -345,6 +417,7 @@ export default function Messages() {
                 </label>
                 <button onClick={sendMessgae}>Gửi</button>
               </div>
+              
             </div>
           </div>
         </div>

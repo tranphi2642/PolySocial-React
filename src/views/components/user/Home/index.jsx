@@ -25,7 +25,7 @@ import AddFriend from "../../general/ConfirmFriend";
 import ListFiend from "../../general/ListFriend";
 import { io } from "socket.io-client";
 
-const CONNECTTION_PORT = "localhost:3002";
+const CONNECTTION_PORT = "192.168.100.82:3002";
 let socket;
 export default function Home() {
   const { account } = useLogin();
