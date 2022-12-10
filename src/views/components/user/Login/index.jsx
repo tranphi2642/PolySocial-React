@@ -19,7 +19,8 @@ export default function Login() {
     console.log(response);
     if (response.status === 200) {
       setAccount(response.data);
-      this.props.history.push("/home");
+      window.location = "/home";
+      // this.props.history.push("/home");
     } else {
       alert(response.data.message);
     }

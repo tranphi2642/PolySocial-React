@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 import { Link, Navigate } from "react-router-dom";
 import NotificationModal from "./NotificationModal";
@@ -7,6 +7,7 @@ import CreatePostModal from "./CreatePostModal";
 import CustomModal from "./CustomModal";
 import Nav from "../../general/Nav/index";
 import Post from "../../general/Post";
+import Asios from "./../../../../api/index";
 
 import {
   UilHome,
@@ -21,18 +22,82 @@ import {
 
 import "./index.scss";
 import AddFriend from "../../general/ConfirmFriend";
-import HomeChat from "../../general/HomeChat";
+import ListFiend from "../../general/ListFriend";
+import { io } from "socket.io-client";
 
+const CONNECTTION_PORT = "localhost:3002";
+let socket;
 export default function Home() {
   const { account } = useLogin();
   const [show, setShow] = useState(false);
   const [showDeadline, setShowDeadline] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
+  const [showRequestFriend, setShowRequestFriend] = useState([]);
+  const [listPosts, setListPost] = useState([]);
+
+  const listInnerRef = useRef();
+  const [currPage, setCurrPage] = useState(0);
+  const [prevPage, setPrevPage] = useState(0);
+  const [lastList, setLastList] = useState(false);
+  const [limit, setLimit] = useState(2);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    getRequestFriend();
+  }, []);
+
+  useEffect(() => {
+    socket = io(CONNECTTION_PORT);
+  });
+
+  useEffect(() => {
+    socket.on("Server-response-like-comment", async function () {
+      const response = await Asios.Posts.getAllByAllPost(0, 100);
+      setListPost([...listPosts, ...response.listPostDTO]);
+    });
+  }, []);
+
+  const fetchData = async () => {
+    const response = await Asios.Posts.getAllByAllPost(currPage, limit);
+    console.log("currPage----> " + currPage);
+    if (!response.listPostDTO.length) {
+      setLastList(true);
+      return;
+    }
+    setPrevPage(currPage);
+    setListPost([...listPosts, ...response.listPostDTO]);
+  };
+  if (!lastList && prevPage !== currPage) {
+    fetchData();
+  }
+
+  const getRequestFriend = async () => {
+    const response = await Asios.Friends.getAllRequestAddFriend();
+    setShowRequestFriend(response);
+  };
+
+  const logout = () => {
+    sessionStorage.clear();
+    window.location.href = "/login";
+  };
+
+  const onScroll = () => {
+    if (listInnerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        setCurrPage(currPage + 1);
+      }
+    }
+  };
 
   if (!account) {
     return <Navigate to="/login" replace={true} />;
   }
+
   return (
     <React.Fragment>
       <Nav />
@@ -135,7 +200,7 @@ export default function Home() {
                 </span>
                 <h3>Quản lý</h3>
               </Link>
-              <Link to={"/"} className="menu-item">
+              <Link className="menu-item" onClick={logout}>
                 <span>
                   <i>
                     <UilSignout />
@@ -160,20 +225,22 @@ export default function Home() {
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
                 onClick={() => setShowCreatePost(true)}
               />
-              <input
-                type="submit"
-                value="Đăng bài"
-                className="btn btn-primary"
-              />
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <Post />
-              <Post />
-              <Post />
-              <Post />
+              <div>
+                <div
+                  onScroll={onScroll}
+                  ref={listInnerRef}
+                  style={{ height: "100vh", overflowY: "auto" }}
+                >
+                  {listPosts.map((post, index) => (
+                    <Post {...post} key={index} socket={socket} />
+                  ))}
+                </div>
+              </div>
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
@@ -182,16 +249,16 @@ export default function Home() {
           {/* <!------------------------------- Right ----------------------------> */}
           <div className="right">
             <div className="messages">
-              <HomeChat />
+              <ListFiend socket={socket} />
             </div>
             {/* <!------------------------------- End Messages ----------------------------> */}
 
             {/* <!------------------------------- Friend Requests ----------------------------> */}
             <div className="friend-requests">
               <h4>Lời kết bạn</h4>
-              <AddFriend />
-              <AddFriend />
-              <AddFriend />
+              {showRequestFriend.map((addFriend, index) => (
+                <AddFriend {...addFriend} key={index} />
+              ))}
             </div>
             {/* <!------------------------------- End Friend Request ----------------------------> */}
           </div>
@@ -205,6 +272,7 @@ export default function Home() {
       <CreatePostModal
         onClose={() => setShowCreatePost(false)}
         showCreatePost={showCreatePost}
+        socket={socket}
       />
     </React.Fragment>
   );

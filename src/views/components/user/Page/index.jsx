@@ -1,21 +1,58 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  UilSearch,
-  UilHeart,
-  UilCommentDots,
-  UilShareAlt,
-  UilBookmarkFull,
-  UilEllipsisH,
-  UilSignOutAlt,
-} from "@iconscout/react-unicons";
+import Post from "../../general/Post";
+import { UilSearch, UilSignOutAlt } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
+import Asios from "./../../../../api/index";
 
-import avatar from "../../../../assets/images/1.jpg";
-import post from "../../../../assets/images/post.jpg";
 import "./index.scss";
 
 export default function Page() {
+  const [groups, setGroup] = useState([]);
+  const [listPosts, setListPost] = useState([]);
+
+  const listInnerRef = useRef();
+  const [currPage, setCurrPage] = useState(0);
+  const [prevPage, setPrevPage] = useState(0);
+  const [lastList, setLastList] = useState(false);
+  const [limit, setLimit] = useState(2);
+
+  useEffect(() => {
+    getAllData();
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response = await Asios.Posts.getAllByAllPost(currPage, limit);
+    console.log("currPage----> " + currPage);
+    if (!response.listPostDTO.length) {
+      setLastList(true);
+      return;
+    }
+    setPrevPage(currPage);
+    setListPost([...listPosts, ...response.listPostDTO]);
+  };
+
+
+  if (!lastList && prevPage !== currPage) {
+    fetchData();
+  }
+  const onScroll = () => {
+    if (listInnerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        setCurrPage(currPage + 1);
+      }
+    }
+  };
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getAllGroupStudent();
+    setGroup(response);
+  };
+
+  console.log(groups);
+
   return (
     <React.Fragment>
       <Nav />
@@ -54,447 +91,42 @@ export default function Page() {
               <hr />
               <div className="page-join">
                 <h4>Nhóm bạn đã tham gia</h4>
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
-
-                <Link to={"/pageDetail"} className="page">
-                  <div className="page-photo">
-                    <img
-                      src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
-                      alt=""
-                    />
-                  </div>
-                  <div className="handle">
-                    <h4>SYB.IT16307_3.B2.2022</h4>
-                    <p className="text-muted">
-                      Lần hoạt động gần nhất: 1 tháng trước
-                    </p>
-                  </div>
-                </Link>
+                {groups.map((group, index) => (
+                  <Link
+                    to={`/pageDetail/${group.groupId}`}
+                    state={{ from: group }}
+                    className="page"
+                    key={index}
+                  >
+                    <div className="page-photo">
+                      <img
+                        src="https://www.facebook.com/images/groups/groups-default-cover-photo-2x.png"
+                        alt=""
+                      />
+                    </div>
+                    <div className="handle">
+                      <h4>{group.groupName}</h4>
+                      <p className="text-muted">
+                        Lần hoạt động gần nhất: 1 tháng trước
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
           <div className="middle">
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <h4 className="text-bold">Hoạt động gần đây</h4>
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
+            <div>
+                <div
+                  onScroll={onScroll}
+                  ref={listInnerRef}
+                  style={{ height: "100vh", overflowY: "auto" }}
+                >
+                  {listPosts.map((post, index) => (
+                    <Post {...post} key={index}/>
+                  ))}
                 </div>
               </div>
             </div>

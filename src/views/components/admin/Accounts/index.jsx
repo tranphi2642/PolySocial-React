@@ -3,6 +3,7 @@ import AccountModal from "./CreateAccountModal";
 import EditAccountModal from "./EditAccountModal";
 import { Link } from "react-router-dom";
 import NavAdmin from "../../general/NavAdmin/index";
+import useLogin from "../../../utils/useLogin/useLogin";
 import {
   UilBars,
   UilPlus,
@@ -11,10 +12,10 @@ import {
   UilEdit,
 } from "@iconscout/react-unicons";
 
-import avatar from "../../../../assets/images/1.jpg";
 import "./index.scss";
 
 export default function Accounts() {
+  const { account } = useLogin();
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -28,8 +29,8 @@ export default function Accounts() {
           </i>
 
           <div className="info">
-            <span>Trần Phi</span>
-            <img src={avatar} alt="" />
+            <span>{account.fullName}</span>
+            <img src={account.avatar} alt="" />
           </div>
         </div>
 

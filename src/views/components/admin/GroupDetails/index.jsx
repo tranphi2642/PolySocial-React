@@ -4,6 +4,7 @@ import DeleteUser from "./DeleteUserModal";
 import { Link, useParams } from "react-router-dom";
 import NavAdmin from "../../general/NavAdmin/index";
 import Asios from "./../../../../api/index";
+import useLogin from "../../../utils/useLogin/useLogin";
 import {
   UilBars,
   UilPlus,
@@ -12,9 +13,8 @@ import {
   UilEdit,
 } from "@iconscout/react-unicons";
 
-import avatar from "../../../../assets/images/1.jpg";
-
 export default function GroupDetails() {
+  const { account } = useLogin();
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [students, setStudent] = useState([]);
@@ -31,7 +31,8 @@ export default function GroupDetails() {
   };
 
   const getAllData = async () => {
-    const response = await Asios.Groups.get_all_student_group(id);
+    const response = await Asios.Groups.getAllStudentGroup(id);
+    console.log(response);
     setStudent(response);
   };
 
@@ -45,8 +46,8 @@ export default function GroupDetails() {
           </i>
 
           <div className="info">
-            <span>Trần Phi</span>
-            <img src={avatar} alt="" />
+            <span>{account.fullName}</span>
+            <img src={account.avatar} alt="" />
           </div>
         </div>
 
@@ -89,9 +90,9 @@ export default function GroupDetails() {
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Mã người tham gia</th>
-                <th>Mã nhóm tham gia</th>
-                <th>Giảng viên</th>
+                <th>Mã số sinh viên</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
                 <th></th>
               </tr>
             </thead>
@@ -99,11 +100,9 @@ export default function GroupDetails() {
               {students?.map((st, index) => (
                 <tr className="active-row" key={index}>
                   <td>{index + 1}</td>
-                  <td>{st.userId}</td>
-                  <td>{st.groupId}</td>
-                  <td>
-                    {st.isTeacher ? "Có giảng viên" : "Không có giảng viên"}
-                  </td>
+                  <td>{st.studentCode}</td>
+                  <td>{st.fullName}</td>
+                  <td>{st.email}</td>
                   <td>
                     <Link
                       className="deleteUser"

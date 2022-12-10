@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import SearchFriend from "./SearchFriend";
 import "./index.scss";
+
 import {
   UilSearch,
   UilSignout,
@@ -13,6 +14,13 @@ import useLogin from "../../../utils/useLogin/useLogin";
 export default function Nav() {
   const { account } = useLogin();
   const [show, setShow] = useState(false);
+  const [search, setSearch] = useState(null);
+
+  const handleShowSearch = (event) => {
+    let search = event.target.value;
+    setShow(true);
+    setSearch(search);
+  };
 
   return (
     <nav>
@@ -33,9 +41,13 @@ export default function Nav() {
           <input
             type="search"
             placeholder="Tìm kiếm"
-            onClick={() => setShow(true)}
+            onChange={(e) => handleShowSearch(e)}
           />
-          <SearchFriend onClose={() => setShow(false)} show={show} />
+          <SearchFriend
+            search={search}
+            onClose={() => setShow(false)}
+            show={show}
+          />
         </div>
         <div className="dropdown">
           <div className="profile-picture">

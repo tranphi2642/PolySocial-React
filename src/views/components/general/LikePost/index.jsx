@@ -1,9 +1,8 @@
 import React from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 
-export default function LikePost() {
+export default function LikePost({ item }) {
   const { account } = useLogin();
-
   return (
     <React.Fragment>
       <span>
@@ -17,7 +16,7 @@ export default function LikePost() {
       </span>
 
       <p>
-        Được thích bởi <b>{account.fullName}</b> và <b> 4 người khác</b>{" "}
+        Được thích bởi <b>{account.fullName}</b> và <b> {item.countLike} người khác</b>{" "}
       </p>
     </React.Fragment>
   );
