@@ -16,27 +16,31 @@ const EditContentModal = (props) => {
   }, [props.groupId.current]);
 
   const getOneData = async () => {
-    const response = await Axios.Groups.get_one_group(props.groupId.current);
+    const response = await Axios.Groups.getOneGroup(props.groupId.current);
     if (response) {
       setGroup(response);
     }
   };
 
   const updateGroup = async () => {
-    const response = await Axios.Groups.update_group(group);
+    const response = await Axios.Groups.updateGroup(group);
     if (response) {
       alert("Update group successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Update group failed!");
     }
   };
 
   const deleteGroup = async () => {
-    const response = await Axios.Groups.delete_group(props.groupId.current);
+    const response = await Axios.Groups.deleteGroup(props.groupId.current);
     if (!response) {
       alert("Delete group successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Delete group failed!");
     }
   };
 

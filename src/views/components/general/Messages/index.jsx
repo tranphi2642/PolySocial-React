@@ -1,13 +1,189 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Nav from "../Nav/index";
 import { UilPhoneAlt, UilVideo, UilEllipsisV } from "@iconscout/react-unicons";
 
-import avatar from "./../../../../assets/images/1.jpg";
 import attach from "./../../../../assets/images/attach.png";
 import img from "./../../../../assets/images/img.png";
 import "./index.scss";
+import useLogin from "../../../utils/useLogin/useLogin";
+import { io } from "socket.io-client";
+import { useLocation } from "react-router-dom";
+import Asios from "./../../../../api/index";
+import { format } from "timeago.js";
+
+let socket;
+
+const CONNECTTION_PORT = "localhost:3002";
 
 export default function Messages() {
+  const location = useLocation();
+  const { account } = useLogin();
+  const [messageList, setMessageList] = useState([{}]);
+  const [message, setMessage] = useState("");
+  const [room, setRoom] = useState([]);
+  const [groupList, setGroupList] = useState([]);
+  const [nameGroup, setNameGroup] = useState([]);
+  const [totalMember, setotalMember] = useState([]);
+  const [contactId, setcontactId] = useState([]);
+  const [userTyping, setUserTyping] = useState([]);
+  const [listContacts, setListContacts] = useState([]);
+  const [stuCode, setStuCode] = useState([]);
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    try {
+      const { from } = location.state;
+      var listStudentCode = [];
+      var objectStudentCode = {};
+      for (let index = 0; index < from.listContact.length; index++) {
+        const element = from.listContact[index];
+        var objectStudentCode = element;
+        listStudentCode.push(objectStudentCode);
+      }
+      setListContacts(listStudentCode);
+    } catch (error) {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      socket = io(CONNECTTION_PORT);
+      const { from } = location.state;
+      console.log("----", from);
+      setRoom(from.groupId);
+      setNameGroup(from.groupName);
+      setotalMember(from.totalMember);
+      connectGroup(from.groupId);
+    } catch (error) {}
+  }, []);
+
+  useEffect(() => {
+    for (let index = 0; index < listContacts.length; index++) {
+      const element = listContacts[index];
+      if (element.studentCode == account.studentCode) {
+        console.log("true 1",element.studentCode)
+        setcontactId(element.contactId);
+        break;
+      }
+    }
+  });
+
+  useEffect(() => {
+    socket.emit("join_room", room);
+  }, [room]);
+
+  useEffect(() => {
+    socket.on("recevie_message", (data) => {
+      setMessageList([...messageList, data]);
+    });
+  }, [messageList]);
+
+  useEffect(() => {
+    socket.on(room + "user-typing", (stuCode, data) => {
+      setStuCode(stuCode);
+      setUserTyping(data);
+    });
+  });
+
+  useEffect(() => {
+    socket.on(room + "stop-user-typing", (data) => {
+      setUserTyping(data);
+    });
+  });
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const handleClick = () => {
+    ref.current.focus();
+    socket.emit("I'm typing", room, account);
+  };
+  const handleClickOut = () => {
+    socket.emit("I stopped typing", room);
+  };
+  
+  const clickGroup=()=>{
+    for (let index = 0; index < listContacts.length; index++) {
+      const element = listContacts[index];
+      if (element.studentCode == account.studentCode) {
+        console.log("true 2 nhaaa",element.studentCode)
+        setcontactId(element.contactId);
+        break;
+      }
+    }
+  }
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getAllGroupStudent();
+    console.log("res", response);
+    setGroupList(response);
+  };
+
+  const createMessage = async () => {
+    const data = {
+      content: message,
+      contactId: contactId,
+    };
+    const response = await Asios.Messages.createMessage(data);
+    if (response) {
+      console.log("true");
+    }
+  };
+
+  const connectGroup = async (roomId) => {
+    const response = await Asios.Messages.getMessage(roomId);
+    setMessageList(response.data);
+  };
+
+  const getMessage = async (e, roomId, groupName, totalMember, group) => {
+    try {
+      var listGroup = [];
+      listGroup.push(group);
+      setListContacts(listGroup)
+      let arr =[];
+      arr = listGroup[0].listContact;
+
+      for (let index = 0; index < arr.length; index++) {
+
+        if (arr[index].studentCode == account.studentCode) {
+          setcontactId(arr[index].contactId);
+          break;
+        }
+      }
+
+      setRoom(roomId);
+      socket.emit("join_room", roomId);
+      const response = await Asios.Messages.getMessage(roomId);
+      setRoom(roomId);
+      setNameGroup(groupName);
+      setotalMember(totalMember);
+      
+      try {
+        setMessageList(response.data);
+      } catch (error) {}
+      console.log("resp", response);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
+
+  const sendMessgae = async () => {
+    try {
+      let messageContent = {
+        room: room,
+        content: {
+          studentCode: account.studentCode,
+          content: message,
+        },
+      };
+      createMessage();
+      await socket.emit("send_message", messageContent);
+      setMessageList([...messageList, messageContent.content]);
+      setMessage("");
+    } catch (error) {}
+  };
+
   return (
     <React.Fragment>
       <Nav />
@@ -22,105 +198,42 @@ export default function Messages() {
               <i className="uil uil-search"></i>
             </div>
             <div className="chat">
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="active"></div>
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
+              {groupList.map((group, index) => (
+                <div
+                  className="userChat"
+                  onClick={(e) =>
+                    getMessage(
+                      e,
+                      group.groupId,
+                      group.groupName,
+                      group.totalMember,
+                      group
+                    )
+                  }
+                >
+                  <img
+                    src="https://caodang.fpt.edu.vn/wp-content/uploads/PolyBeeXDesign_Chien-Le_Bai2-scaled.jpg"
+                    alt=""
+                  />
+                  <div className="userChatInfo">
+                    <span>{group.groupName}</span>
+                  </div>
                 </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
-
-              <div className="userChat">
-                <img
-                  src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                  alt=""
-                />
-                <div className="userChatInfo">
-                  <span>Nguyễn Thăng</span>
-                  <p>Hello</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="messages-right">
             <div className="sidebar-message">
               <div className="sidebar-img">
-                <img src={avatar} alt="" />
+                <img
+                  src="https://caodang.fpt.edu.vn/wp-content/uploads/PolyBeeXDesign_Chien-Le_Bai2-scaled.jpg"
+                  alt=""
+                />
                 <div className="active"></div>
               </div>
               <div className="sidebarInfo">
-                <span>Trần Phi</span>
-                <h6>Đang hoạt động</h6>
+                <span>{nameGroup}</span>
+                <h6>{totalMember + " Thành viên"}</h6>
               </div>
               <div className="sidebarIcon">
                 <i>
@@ -136,64 +249,50 @@ export default function Messages() {
             </div>
 
             <div className="message-body-right">
-              <div className="message owner">
-                <div className="messageInfo">
-                  <img
-                    src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                    alt=""
-                  />
-                  <span>Just now</span>
-                </div>
-                <div className="messageContent">
-                  <p>Hi</p>
-                  {/* <!-- <img src={avatar} alt="" /> --> */}
-                </div>
-              </div>
-
-              <div className="message ">
-                <div className="messageInfo">
-                  <img src={avatar} alt="" />
-                  <span>Just now</span>
-                </div>
-                <div className="messageContent">
-                  <p>Hello</p>
-                  <img src={avatar} alt="" />
-                </div>
-              </div>
-
-              <div className="message owner">
-                <div className="messageInfo">
-                  <img
-                    src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/300743054_769601440955493_146726401145117441_n.jpg?stp=cp6_dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rrdeRp-WjAsAX9gw00x&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9awnQq3NnCMdm0quTc-doOks0RsAwfjbFXPbYBxen0mg&oe=635CB2AB"
-                    alt=""
-                  />
-                  <span>Just now</span>
-                </div>
-                <div className="messageContent">
-                  <p>How are you?</p>
-                </div>
-              </div>
-
-              <div className="message ">
-                <div className="messageInfo">
-                  <img src={avatar} alt="" />
-                  <span>Just now</span>
-                </div>
-                <div className="messageContent">
-                  <p>I'm fine thanks</p>
-                </div>
-              </div>
+              {messageList.map((value, key) => {
+                return (
+                  <div
+                    className={
+                      value.studentCode == account.studentCode
+                        ? "message owner"
+                        : "message"
+                    }
+                  >
+                    <div className="messageInfo">
+                      <img src={value.avatar} alt="" />
+                      <span>{value.fullName}</span>
+                      <span>
+                        {value.isAdmin ? "Quản trị viên" : "Thành viên"}{" "}
+                      </span>
+                      <span>{format(value.createdDate)}</span>
+                    </div>
+                    <div className="messageContent">
+                      <p>{value.content}</p>
+                    </div>
+                    {/* <span>{value.studentCode==stuCode?userTyping:''}</span> */}
+                  </div>
+                );
+              })}
             </div>
-
+            {userTyping}
             <div className="input">
-              <input type="text" placeholder="Hãy nhập tin nhắn ..." />
+              <input
+                type="text"
+                ref={ref}
+                onBlur={handleClickOut}
+                onFocus={handleClick}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+                placeholder="Hãy nhập tin nhắn ..."
+              />
               <div className="send">
                 <img src={attach} alt="" />
                 <input type="file" id="file" style={{ display: "none" }} />
                 <label htmlFor="file">
                   <img src={img} alt="Gửi ảnh" />
                 </label>
-                <button>Gửi</button>
+                <button onClick={sendMessgae}>Gửi</button>
               </div>
             </div>
           </div>

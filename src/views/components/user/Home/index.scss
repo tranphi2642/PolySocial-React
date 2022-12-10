@@ -371,6 +371,13 @@ main .container .left a {
   gap: 0.5rem;
 }
 
+.middle .feed .action-buttons .interaction-buttons span button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 .middle .feed .action-buttons .custom-action {
   display: flex;
   gap: 0.2rem;

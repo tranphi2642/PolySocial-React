@@ -1,20 +1,24 @@
 import React from "react";
 import useLogin from "../../../utils/useLogin/useLogin";
 
-export default function CommentPost() {
+export default function CommentPost({ item }) {
   const { account } = useLogin();
-
   return (
-    <div className="comments">
-      <div className="profile-cmt">
-        <div className="profile-photo-cmt">
-          <img src={account.avatar} alt="" />
+    <div>
+      {item.map((cmt, index) => (
+        <div className="comments" key={index}>
+          <div className="profile-cmt">
+            <div className="profile-photo-cmt">
+              <img src={cmt.user.avatar} alt="" />
+            </div>
+            <div className="handle-cmt">
+              <h4>{cmt.user.fullName}</h4>
+              <p>{cmt.createdDate}</p>
+              <p>{cmt.content}</p>
+            </div>
+          </div>
         </div>
-        <div className="handle-cmt">
-          <h4>{account.fullName}</h4>
-          <p>Bài viết này xịn quá</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

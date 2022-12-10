@@ -11,14 +11,13 @@ const GroupModal = (props) => {
   });
 
   const createUser = async () => {
-    const response = await Axios.Groups.create_student_group(
-      user.userId,
-      user.groupId
-    );
+    const response = await Axios.Groups.createStudentGroup(user);
     if (response) {
       alert("Create student successfully!");
       props.onClose();
       window.location.reload();
+    } else {
+      alert("Create student failed!");
     }
   };
 

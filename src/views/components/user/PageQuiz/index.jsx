@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import Asios from "./../../../../api/index";
 import {
   UilHome,
   UilUsersAlt,
@@ -13,11 +14,22 @@ import {
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
 
-import avatar from "../../../../assets/images/1.jpg";
 import CreateModalQuiz from "./CreateModalQuiz";
+import Quiz from "../../general/Quiz";
 
 export default function PageQuiz() {
   const [show, setShow] = useState(false);
+  const [group, setGroup] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getOneGroup(id);
+    setGroup(response);
+  };
 
   return (
     <React.Fragment>
@@ -32,12 +44,12 @@ export default function PageQuiz() {
               />
             </div>
             <div className="title">
-              <span>SYB.IT16307_3.B2.2022</span>
+              <span>{group.name}</span>
               <p className="text-muted">
                 <i>
                   <UilLock />
                 </i>{" "}
-                Nhóm riêng tư - <i>31 thành viên</i>
+                Nhóm riêng tư - <i>{group.totalMember} thành viên</i>
               </p>
             </div>
             <div className="join">
@@ -61,7 +73,10 @@ export default function PageQuiz() {
             </div>
             {/* <!------------------------------- Side bar ----------------------------> */}
             <div className="sidebar">
-              <Link to={"/pageDetail"} className="menu-item active">
+              <Link
+                to={`/pageDetail/${group.groupId}`}
+                className="menu-item active"
+              >
                 <span>
                   <i>
                     <UilHome />
@@ -69,7 +84,7 @@ export default function PageQuiz() {
                 </span>
                 <h3>Trang chủ</h3>
               </Link>
-              <Link to={"/pagePeoples"} className="menu-item">
+              <Link to={`/pagePeoples/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilUsersAlt />
@@ -85,7 +100,7 @@ export default function PageQuiz() {
                 </span>
                 <h3>Phản hồi</h3>
               </Link>
-              <Link to={"/pageQuizs"} className="menu-item">
+              <Link to={`/pageQuizs/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilFileUpload />
@@ -106,108 +121,7 @@ export default function PageQuiz() {
           <div className="middle">
             <div className="exercise">
               <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 1</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-
-                <div className="wrapper">
-                  <span className="check-quiz">
-                    <p>0</p> Chưa nộp
-                  </span>
-                  <span className="check-quiz">
-                    <p>10</p> Đã nộp
-                  </span>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 2</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 3</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 4</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 5</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 6</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 7</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
-              </Link>
-
-              <Link to={"/pageQuizsDetails"} className="profile">
-                <div className="profile-photo-1">
-                  <img src={avatar} alt="" />
-                </div>
-                <div className="handle">
-                  <h4>
-                    Trần Phi<span> đã tạo mới một bài tập: Lab 8</span>
-                  </h4>
-                  <p className="text-muted">28/09/2022</p>
-                </div>
+                <Quiz />
               </Link>
             </div>
           </div>

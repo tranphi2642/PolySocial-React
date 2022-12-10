@@ -1,26 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import Asios from "./../../../../api/index";
+import Post from "../../general/Post";
+import useLogin from "../../../utils/useLogin/useLogin";
+import CreatePostModal from "./CreatePostModal";
 import {
   UilHome,
   UilUsersAlt,
   UilFeedback,
   UilFileUpload,
   UilSignout,
-  UilHeart,
-  UilCommentDots,
-  UilShareAlt,
-  UilBookmarkFull,
   UilEllipsisH,
   UilLock,
   UilUserCheck,
   UilPlus,
+  UilEnvelopeAlt,
 } from "@iconscout/react-unicons";
 import Nav from "../../general/Nav/index";
+import { useLocation } from "react-router-dom";
 
-import avatar from "../../../../assets/images/1.jpg";
-import post from "../../../../assets/images/post.jpg";
+import { io } from "socket.io-client";
 
-export default function pageDetail() {
+let socket;
+const CONNECTTION_PORT = "localhost:3002";
+
+export default function PageDetail() {
+  const { account } = useLogin();
+  const location = useLocation();
+  const { from } = location.state;
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  const [group, setGroup] = useState([]);
+  const [listPosts, setListPost] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getAllData();
+    fetchPostList();
+  }, []);
+
+  useEffect(() => {
+    socket = io(CONNECTTION_PORT);
+  });
+
+  const fetchPostList = async () => {
+    try {
+      const response = await Asios.Posts.getAllByAllPostGroup(id);
+      setListPost(response.listPostDTO);
+    } catch (error) {
+      console.log("Failed to fetch post list: ", error);
+    }
+  };
+
+  const getAllData = async () => {
+    const response = await Asios.Groups.getOneGroup(id);
+    setGroup(response);
+  };
+
   return (
     <React.Fragment>
       <Nav />
@@ -34,28 +69,28 @@ export default function pageDetail() {
               />
             </div>
             <div className="title">
-              <span>SYB.IT16307_3.B2.2022</span>
+              <span>{group.name}</span>
               <p className="text-muted">
                 <i>
                   <UilLock />
                 </i>{" "}
-                Nhóm riêng tư - <i>31 thành viên</i>
+                Nhóm riêng tư - <i>{group.totalMember} thành viên</i>
               </p>
             </div>
             <div className="join">
-              <button>
+              <button type="button">
                 <i>
                   <UilUserCheck />
                 </i>{" "}
                 Đã tham gia
               </button>
-              <button>
+              <button type="button">
                 <i>
                   <UilPlus />
                 </i>
                 Mời{" "}
               </button>
-              <button>
+              <button type="button">
                 <i>
                   <UilEllipsisH />
                 </i>{" "}
@@ -63,7 +98,10 @@ export default function pageDetail() {
             </div>
             {/* <!------------------------------- Side bar ----------------------------> */}
             <div className="sidebar">
-              <Link to={"/pageDetail"} className="menu-item active">
+              <Link
+                to={`/pageDetail/${group.groupId}`}
+                className="menu-item active"
+              >
                 <span>
                   <i>
                     <UilHome />
@@ -71,13 +109,25 @@ export default function pageDetail() {
                 </span>
                 <h3>Trang chủ</h3>
               </Link>
-              <Link to={"/pagePeoples"} className="menu-item">
+              <Link to={`/pagePeoples/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilUsersAlt />
                   </i>
                 </span>
                 <h3>Thành viên</h3>
+              </Link>
+              <Link
+                to={`/messages`}
+                state={{ from: from }}
+                className="menu-item"
+              >
+                <span>
+                  <i>
+                    <UilEnvelopeAlt />
+                  </i>
+                </span>
+                <h3>Nhắn tin</h3>
               </Link>
               <Link to={"/feedback"} className="menu-item">
                 <span>
@@ -87,7 +137,7 @@ export default function pageDetail() {
                 </span>
                 <h3>Phản hồi</h3>
               </Link>
-              <Link to={"/pageQuizs"} className="menu-item">
+              <Link to={`/pageQuizs/${group.groupId}`} className="menu-item">
                 <span>
                   <i>
                     <UilFileUpload />
@@ -108,330 +158,33 @@ export default function pageDetail() {
           <div className="middle">
             {/* <!------------------------------- Create post ----------------------------> */}
             <form className="create-post">
-              <div className="profile-photo">
-                <img src={avatar} alt="" />
+              <div className="profile-photo-post">
+                <img src={account.avatar} alt="" />
               </div>
               <input
                 type="text"
-                name="post"
                 id="create-post"
                 placeholder="Hôm nay bạn muốn đăng gì thế?"
-              />
-              <input
-                type="submit"
-                value="Đăng bài"
-                className="btn btn-primary"
+                onClick={() => setShowCreatePost(true)}
               />
             </form>
             {/* <!------------------------------- End Create post ----------------------------> */}
 
             {/* <!------------------------------- Feeds ----------------------------> */}
             <div className="feeds">
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
-
-              <div className="feed">
-                <div className="head">
-                  <div className="user">
-                    <div className="profile-photo">
-                      <img src={avatar} alt="" />
-                    </div>
-                    <div className="info">
-                      <h3>Trần Phi</h3>
-                      <small> FPT Polytechnic, 15 phút trước </small>
-                    </div>
-                  </div>
-                  <span className="edit">
-                    <i>
-                      <UilEllipsisH />
-                    </i>
-                  </span>
-                </div>
-
-                <div className="photo">
-                  <img src={post} alt="" />
-                </div>
-
-                <div className="action-buttons">
-                  <div className="interaction-buttons">
-                    <span>
-                      <i>
-                        <UilHeart />
-                      </i>
-                      <i>
-                        <UilCommentDots />
-                      </i>
-                      <i className="uil uil-share-alt">
-                        <UilShareAlt />
-                      </i>
-                    </span>
-                  </div>
-                  <div className="bookmark">
-                    <span>
-                      <i>
-                        <UilBookmarkFull />
-                      </i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="liked-by">
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-                  <span>
-                    <img src={avatar} alt="" />
-                  </span>
-
-                  <p>
-                    Được thích bởi <b>Trần Phi</b> và <b> 4 người khác</b>{" "}
-                  </p>
-                </div>
-
-                <div className="caption">
-                  <p>
-                    <b>Trần Phi</b> Gia đình Coder Poly. <span>#Fpoly</span>
-                  </p>
-                </div>
-
-                <div className="comments text-muted">
-                  Xem tất cả các bình luận
-                </div>
-              </div>
+              {listPosts.map((post, index) => (
+                <Post {...post} key={index} />
+              ))}
             </div>
             {/* <!------------------------------- End Feeds ----------------------------> */}
           </div>
-          {/* <!------------------------------- End Middle ----------------------------> */}
-          {/* <div className="right">
-            <div className="about">
-                <h3>Giới thiệu</h3>
-                <span><i className="uil uil-lock"></i> Riêng tư</span>
-                <p>Chỉ thành viên mới nhìn thấy mọi người trong nhóm và những gì họ đăng.</p>
-
-                <span><i className="uil uil-eye"></i> Hiển thị</span>
-                <p>Ai cũng có thể tìm nhóm này.</p>
-
-                <button>Tìm hiểu thêm</button>
-            </div>
-        </div>  */}
         </div>
       </main>
+      <CreatePostModal
+        onClose={() => setShowCreatePost(false)}
+        showCreatePost={showCreatePost}
+        socket={socket}
+      />
     </React.Fragment>
   );
 }

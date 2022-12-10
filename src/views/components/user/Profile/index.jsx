@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Nav from "../../general/Nav/index";
-
-import avatar from "../../../../assets/images/1.jpg";
+import useLogin from "../../../utils/useLogin/useLogin";
 
 export default function Profile() {
+  const { account } = useLogin();
+
   return (
     <React.Fragment>
       <Nav />
@@ -12,11 +13,11 @@ export default function Profile() {
         <div className="container-profile">
           <div className="profile">
             <div className="title">
-              <img src={avatar} alt="" />
+              <img src={account.avatar} alt="" />
             </div>
             <div className="info">
-              <p>Trần Phi</p>
-              <span className="text-muted">phitmps16509@fpt.edu.vn</span>
+              <p>{account.fullName}</p>
+              <span className="text-muted">{account.email}</span>
               <br />
               <span className="text-muted">Sinh viên FPT Polytechnic</span>
             </div>
