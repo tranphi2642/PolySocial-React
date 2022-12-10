@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/PolySocial-React/static/css/main.68fcf1b4.css",
+    "main.js": "/PolySocial-React/static/js/main.c4e28bbd.js",
+    "static/media/1.jpg": "/PolySocial-React/static/media/1.62d96d86b5fb7a38114b.jpg",
+    "static/media/fontawesome-webfont.svg?v=4.7.0": "/PolySocial-React/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
+    "static/media/fontawesome-webfont.eot": "/PolySocial-React/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/fontawesome-webfont.ttf?v=4.7.0": "/PolySocial-React/static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
+    "static/media/fontawesome-webfont.woff?v=4.7.0": "/PolySocial-React/static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
+    "static/media/fontawesome-webfont.woff2?v=4.7.0": "/PolySocial-React/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
+    "index.html": "/PolySocial-React/index.html",
+    "main.68fcf1b4.css.map": "/PolySocial-React/static/css/main.68fcf1b4.css.map",
+    "main.c4e28bbd.js.map": "/PolySocial-React/static/js/main.c4e28bbd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.68fcf1b4.css",
+    "static/js/main.c4e28bbd.js"
+  ]
+}
