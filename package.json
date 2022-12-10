@@ -1,7 +1,7 @@
 {
   "name": "my-poly-social",
   "version": "0.1.0",
-  "homepage": "https://tranphi2642.github.io/PolySocial-React/",
+  "homepage": "https://tranphi2642.github.io",
   "private": true,
   "dependencies": {
     "@iconscout/react-unicons": "^1.1.6",
@@ -17,7 +17,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
-    "react-use-googlelogin": "^0.12.5",
     "sass": "^1.55.0",
     "socket.io-client": "^4.5.4",
     "timeago-react": "^3.0.5",
@@ -26,8 +25,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
