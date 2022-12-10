@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { publicRouters } from "../routes";
+import { publicRouters } from "./routes";
 
 function App() {
   return (
