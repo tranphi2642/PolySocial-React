@@ -15,7 +15,7 @@ function App() {
             const Page = route.component;
             return <Route key={index} path={route.path} element={<Page />} />;
           })}
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/PolySocial-React" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </Router>
